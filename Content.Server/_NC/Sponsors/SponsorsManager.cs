@@ -36,6 +36,7 @@ public sealed class SponsorsManager : ISponsorsManager
 
         _discordAuthManager.PlayerVerified += OnPlayerVerified;
         _netManager.Disconnect += OnDisconnect;
+        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiKey);
 
         _sawmill = Logger.GetSawmill("sponsors");
     }
