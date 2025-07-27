@@ -23,11 +23,13 @@ public sealed class SponsorsManager : ISponsorsManager
     private string _guildId = default!;
     private string _apiUrl = default!;
     private string _apiKey = default!;
+    private bool _enabled;
 
     private Dictionary<NetUserId, SponsorData> _cachedSponsors = new();
 
     public void Initialize()
     {
+        _configuration.OnValueChanged(CCCVars.DiscordAuthEnabled, val => { _enabled = val; }, true);
         _configuration.OnValueChanged(CCCVars.DiscordGuildID, s => _guildId = s, true);
         _configuration.OnValueChanged(CCCVars.DiscordApiUrl, s => _apiUrl = s, true);
         _configuration.OnValueChanged(CCCVars.ApiKey, value => _apiKey = value, true);
@@ -45,6 +47,9 @@ public sealed class SponsorsManager : ISponsorsManager
 
     private async void OnPlayerVerified(object? sender, ICommonSession e)
     {
+        if (!_enabled)
+            return;
+
         var roles = await GetRoles(e.UserId);
         if (roles == null)
         {
@@ -60,6 +65,7 @@ public sealed class SponsorsManager : ISponsorsManager
         }
 
         var data = new SponsorData(level, e.UserId);
+
         _cachedSponsors.Add(e.UserId, data);
 
         _sawmill.Info($"{e.UserId} is sponsor now.\nUserId: {e.UserId}. Level: {Enum.GetName(data.Level)}:{(int) data.Level}");

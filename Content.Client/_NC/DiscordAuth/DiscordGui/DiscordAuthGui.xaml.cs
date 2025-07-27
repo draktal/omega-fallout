@@ -23,6 +23,7 @@ public sealed partial class DiscordAuthGui : Control
         AuthLinkEdit.SetText(link);
         DLinkEdit.SetText(DiscordAuthManager.DiscordServerLink);
         InfoLabel.SetMessage(Loc.GetString("stalker-discord-info"));
+        ErrorMessage.SetMessage(_discordAuthManager.ErrorMessage);
 
         var uriOpener = IoCManager.Resolve<IUriOpener>();
 
