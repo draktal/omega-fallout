@@ -35,6 +35,7 @@ using Content.Shared.Kitchen;
 using Content.Shared.Players.PlayTimeTracking;
 using Content.Shared.Players.RateLimiting;
 using Robust.Shared.Network;
+using Content.Shared._NC.Sponsors;
 
 namespace Content.Server.IoC
 {
@@ -81,6 +82,7 @@ namespace Content.Server.IoC
             IoCManager.Register<PlayerRateLimitManager>();
             IoCManager.Register<SharedPlayerRateLimitManager, PlayerRateLimitManager>();
             IoCManager.Register<MappingManager>();
+            IoCManager.Register<ISponsorsManager, SponsorsManager>(); // Forge-Change
         }
     }
 }
