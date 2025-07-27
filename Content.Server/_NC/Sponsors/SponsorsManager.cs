@@ -67,7 +67,7 @@ public sealed class SponsorsManager : ISponsorsManager
 
     private async Task<List<string>?> GetRoles(NetUserId userId)
     {
-        var requestUrl = $"{_apiUrl}/roles?userid={userId}&guildid={_guildId}&api_token={_apiKey}";
+        var requestUrl = $"{_apiUrl}/roles?method=uid&id={userId}&guildId={_guildId}";
         var response = await _httpClient.GetAsync(requestUrl);
 
         if (!response.IsSuccessStatusCode)

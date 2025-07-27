@@ -97,7 +97,7 @@ public sealed class DiscordAuthManager : IPostInjectInit
     {
         _sawmill.Debug($"Player {userId} check Discord verification");
 
-        var requestUrl = $"{_apiUrl}/check?userid={userId}&api_token={_apiKey}";
+        var requestUrl = $"{_apiUrl}/uuid?method=uid&id={userId}";
         var response = await _httpClient.GetAsync(requestUrl, cancel);
         if (!response.IsSuccessStatusCode)
             return null;
@@ -109,7 +109,7 @@ public sealed class DiscordAuthManager : IPostInjectInit
     public async Task<string> GenerateLink(NetUserId userId, CancellationToken cancel = default)
     {
         _sawmill.Debug($"Generating link for {userId}");
-        var requestUrl = $"{_apiUrl}/link?userid={userId}&api_token={_apiKey}";
+        var requestUrl = $"{_apiUrl}/link?uid={userId}";
         var response = await _httpClient.GetAsync(requestUrl, cancel);
         var link = await response.Content.ReadFromJsonAsync<DiscordLinkResponse>(cancel);
         return link!.Link;
