@@ -47,11 +47,17 @@ public sealed class SponsorsManager : ISponsorsManager
     {
         var roles = await GetRoles(e.UserId);
         if (roles == null)
+        {
+            _sawmill.Info($"Не найдены роли пользователя {e.UserId}");
             return;
+        }
 
         var level = SponsorData.ParseRoles(roles);
         if (level == SponsorLevel.None)
+        {
+            _sawmill.Info($"Пользователь {e.UserId} не имеет спонсорских ролей");
             return;
+        }
 
         var data = new SponsorData(level, e.UserId);
         _cachedSponsors.Add(e.UserId, data);
@@ -76,6 +82,7 @@ public sealed class SponsorsManager : ISponsorsManager
 
         if (rolesJson != null && rolesJson.TryGetValue("roles", out var roles))
         {
+            _sawmill.Info($"Роли пользователя {userId} успешно получены");
             return roles;
         }
 

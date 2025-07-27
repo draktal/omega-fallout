@@ -5,13 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._NC.CCCvars;
 using Content.Shared._NC.DiscordAuth;
-using Lidgren.Network;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
-using Robust.Shared.Serialization;
 using Timer = Robust.Shared.Timing.Timer;
 
 namespace Content.Server._NC.Discord;
@@ -90,7 +88,7 @@ public sealed class DiscordAuthManager : IPostInjectInit
         }
 
         var link = await GenerateLink(args.Session.UserId);
-        var message = new MsgDiscordAuthRequired() {Link = link};
+        var message = new MsgDiscordAuthRequired() { Link = link };
         args.Session.Channel.SendMessage(message);
     }
 
