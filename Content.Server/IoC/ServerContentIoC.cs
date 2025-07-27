@@ -75,14 +75,14 @@ namespace Content.Server.IoC
             IoCManager.Register<ServerDbEntryManager>();
             IoCManager.Register<JoinQueueManager>();
             IoCManager.Register<DiscordAuthManager>();
-            IoCManager.Register<SponsorsManager>();
+            IoCManager.Register<SponsorsManager>(); // Forge-Change
+            IoCManager.Register<ISponsorsManager, SponsorsManager>(); // Forge-Change
             IoCManager.Register<ISharedPlaytimeManager, PlayTimeTrackingManager>();
             IoCManager.Register<ServerApi>();
             IoCManager.Register<JobWhitelistManager>();
             IoCManager.Register<PlayerRateLimitManager>();
             IoCManager.Register<SharedPlayerRateLimitManager, PlayerRateLimitManager>();
             IoCManager.Register<MappingManager>();
-            IoCManager.Register<ISponsorsManager, SponsorsManager>(); // Forge-Change
         }
     }
 }
