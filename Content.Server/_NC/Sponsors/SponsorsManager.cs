@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Content.Server._NC.Discord;
 using Content.Server._NC.CCCvars;
@@ -8,6 +7,9 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Content.Shared._NC.Sponsors;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
+using System.Linq;
 
 namespace Content.Server._NC.Sponsors;
 
@@ -83,15 +85,11 @@ public sealed class SponsorsManager : ISponsorsManager
             return null;
         }
 
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadFromJsonAsync<RolesResponse>();
 
-        var rolesJson = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(responseContent);
+        if (responseContent is not null)
+            return responseContent.Roles.ToList();
 
-        if (rolesJson != null && rolesJson.TryGetValue("roles", out var roles))
-        {
-            _sawmill.Info($"Роли пользователя {userId} успешно получены");
-            return roles;
-        }
 
         _sawmill.Error($"Roles not found in response for user {userId}");
         return null;
@@ -110,5 +108,10 @@ public sealed class SponsorsManager : ISponsorsManager
     public bool TryGetSponsorGhost(SponsorLevel level, [NotNullWhen(true)] out string? ghost)
     {
         return SponsorData.SponsorGhost.TryGetValue(level, out ghost);
+    }
+    private sealed class RolesResponse
+    {
+        [JsonPropertyName("roles")]
+        public string[] Roles { get; set; } = [];
     }
 }
