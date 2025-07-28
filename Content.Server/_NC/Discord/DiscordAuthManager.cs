@@ -1,10 +1,13 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._NC.CCCvars;
+using Content.Server._NC.Sponsors;
 using Content.Shared._NC.DiscordAuth;
+using Content.Shared._NC.Sponsors;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
@@ -18,6 +21,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
     [Dependency] private readonly IServerNetManager _netMgr = default!;
     [Dependency] private readonly IPlayerManager _playerMgr = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly SponsorsManager _sponsors = default!;
 
     private ISawmill _sawmill = default!;
 
@@ -113,6 +117,21 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
             if (discordUuid is null)
                 return EmptyResponseErrorData();
 
+            var roles = await GetRoles(userId);
+            if (roles == null)
+            {
+                _sawmill.Info($"Не найдены роли пользователя {userId}");
+                return EmptyResponseErrorRoleData();
+            }
+
+            var level = SponsorData.ParseRoles(roles);
+            if (level != SponsorLevel.None)
+            {
+                var data = new SponsorData(level, userId);
+                _sponsors.CachedSponsors.Add(userId, data);
+                _sawmill.Info($"{userId} is sponsor now.\nUserId: {userId}. Level: {Enum.GetName(data.Level)}:{(int) data.Level}");
+            }
+
             return new DiscordData(true, new DiscordUserData(userId, discordUuid.DiscordId));
         }
         catch (HttpRequestException)
@@ -140,6 +159,27 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
             return false;
 
         return guilds.Guilds.Any(guild => guild.Id == _discordGuild);
+    }
+
+    private async Task<List<string>?> GetRoles(NetUserId userId)
+    {
+        var requestUrl = $"{_apiUrl}/roles?method=uid&id={userId}&guildId={_discordGuild}";
+        var response = await _httpClient.GetAsync(requestUrl);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            _sawmill.Error($"Failed to retrieve roles for user {userId}: {response.StatusCode}");
+            return null;
+        }
+
+        var responseContent = await response.Content.ReadFromJsonAsync<RolesResponse>();
+
+        if (responseContent is not null)
+            return responseContent.Roles.ToList();
+
+
+        _sawmill.Error($"Roles not found in response for user {userId}");
+        return null;
     }
 
     public async Task<string?> GenerateLink(NetUserId userId, CancellationToken cancel = default)

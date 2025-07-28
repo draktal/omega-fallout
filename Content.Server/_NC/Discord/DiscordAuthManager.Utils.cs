@@ -25,6 +25,11 @@ public sealed partial class DiscordAuthManager
         return CreateError("st-service-response-empty");
     }
 
+    private DiscordData EmptyResponseErrorRoleData()
+    {
+        return CreateError("st-guild-role-empty");
+    }
+
     private DiscordData ServiceUnreachableErrorData()
     {
         return CreateError("st-service-unreachable");
@@ -60,5 +65,11 @@ public sealed partial class DiscordAuthManager
     {
         [JsonPropertyName("link")]
         public string Link { get; set; } = default!;
+    }
+
+    private sealed class RolesResponse
+    {
+        [JsonPropertyName("roles")]
+        public string[] Roles { get; set; } = [];
     }
 }
