@@ -1,11 +1,9 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._NC.CCCvars;
-using Content.Server._NC.Sponsors;
 using Content.Shared._NC.DiscordAuth;
 using Content.Shared._NC.Sponsors;
 using Robust.Server.Player;
@@ -21,7 +19,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
     [Dependency] private readonly IServerNetManager _netMgr = default!;
     [Dependency] private readonly IPlayerManager _playerMgr = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly SponsorsManager _sponsors = default!;
+    [Dependency] private readonly SharedSponsorManager _sponsors = default!;
 
     private ISawmill _sawmill = default!;
 
@@ -49,12 +47,17 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
         _netMgr.RegisterNetMessage<MsgDiscordAuthRequired>();
         _netMgr.RegisterNetMessage<MsgDiscordAuthCheck>(OnAuthCheck);
+        _netMgr.Disconnect += OnDisconnect;
 
         _playerMgr.PlayerStatusChanged += OnPlayerStatusChanged;
 
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiKey);
     }
 
+    private void OnDisconnect(object? sender, NetDisconnectedArgs e)
+    {
+        _sponsors.CachedSponsors.Remove(e.Channel.UserId);
+    }
 
     private async void OnAuthCheck(MsgDiscordAuthCheck msg)
     {
@@ -110,19 +113,19 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
             var discordUuid = await response.Content.ReadFromJsonAsync<DiscordUuidResponse>(cancel);
 
-            var isInGuild = await CheckGuild(userId, cancel);
-            if (!isInGuild)
-                return NotInGuildErrorData();
-
-            if (discordUuid is null)
-                return EmptyResponseErrorData();
-
             var roles = await GetRoles(userId);
             if (roles == null)
             {
                 _sawmill.Info($"Не найдены роли пользователя {userId}");
                 return EmptyResponseErrorRoleData();
             }
+
+            var isInGuild = await CheckGuild(userId, cancel);
+            if (!isInGuild)
+                return NotInGuildErrorData();
+
+            if (discordUuid is null)
+                return EmptyResponseErrorData();
 
             var level = SponsorData.ParseRoles(roles);
             if (level != SponsorLevel.None)
@@ -148,9 +151,20 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
     private async Task<bool> CheckGuild(NetUserId userId, CancellationToken cancel = default)
     {
+        if (RolesCache.ContainsKey(userId))
+            return true;
+
         var requestUrl = $"{_apiUrl}/guilds?method=uid&id={userId}";
         var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
         var response = await _httpClient.SendAsync(request, cancel);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+        {
+            var retryAfter = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30;
+            await Task.Delay(TimeSpan.FromSeconds(retryAfter));
+            return await CheckGuild(userId);
+        }
+
         if (!response.IsSuccessStatusCode)
             return false;
 
@@ -163,23 +177,33 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
     private async Task<List<string>?> GetRoles(NetUserId userId)
     {
+        if (RolesCache.TryGetValue(userId, out var cached))
+        {
+            if (cached.Expiry > DateTimeOffset.Now)
+                return cached.Roles;
+
+            RolesCache.Remove(userId);
+        }
+
         var requestUrl = $"{_apiUrl}/roles?method=uid&id={userId}&guildId={_discordGuild}";
         var response = await _httpClient.GetAsync(requestUrl);
 
-        if (!response.IsSuccessStatusCode)
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
         {
-            _sawmill.Error($"Failed to retrieve roles for user {userId}: {response.StatusCode}");
-            return null;
+            var retryAfter = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30;
+            await Task.Delay(TimeSpan.FromSeconds(retryAfter));
+            return await GetRoles(userId);
         }
 
+        if (!response.IsSuccessStatusCode)
+            return null;
+
         var responseContent = await response.Content.ReadFromJsonAsync<RolesResponse>();
+        if (responseContent == null)
+            return null;
 
-        if (responseContent is not null)
-            return responseContent.Roles.ToList();
-
-
-        _sawmill.Error($"Roles not found in response for user {userId}");
-        return null;
+        RolesCache[userId] = (DateTimeOffset.Now.AddHours(1), responseContent.Roles.ToList());
+        return responseContent.Roles.ToList();
     }
 
     public async Task<string?> GenerateLink(NetUserId userId, CancellationToken cancel = default)

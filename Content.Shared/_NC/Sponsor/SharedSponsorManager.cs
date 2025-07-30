@@ -1,29 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Content.Server._NC.Discord;
-using Content.Server._NC.CCCvars;
-using Robust.Shared.Configuration;
+using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using Robust.Shared.Network;
-using Robust.Shared.Player;
-using Content.Shared._NC.Sponsors;
-using System.Net.Http.Json;
-using System.Text.Json.Serialization;
-using System.Linq;
 
-namespace Content.Server._NC.Sponsors;
+namespace Content.Shared._NC.Sponsors;
 
-public sealed class SponsorsManager : ISponsorsManager
+[UsedImplicitly]
+public sealed class SharedSponsorManager
 {
     public Dictionary<NetUserId, SponsorData> CachedSponsors = new();
-
-    public void Initialize() { }
-
-    private void OnDisconnect(object? sender, NetDisconnectedArgs e)
-    {
-        CachedSponsors.Remove(e.Channel.UserId);
-    }
-
     public bool TryGetSponsorData(NetUserId userId, [NotNullWhen(true)] out SponsorData? sponsorData)
     {
         return CachedSponsors.TryGetValue(userId, out sponsorData);

@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Numerics;
-using Content.Server._NC.Sponsors;
 using Content.Server.GameTicking;
 using Content.Server.Ghost.Components;
 using Content.Server.Mind;
@@ -46,7 +45,7 @@ namespace Content.Server.Ghost
         [Dependency] private readonly TransformSystem _transformSystem = default!;
         [Dependency] private readonly VisibilitySystem _visibilitySystem = default!;
         [Dependency] private readonly MetaDataSystem _metaData = default!;
-        [Dependency] private readonly SponsorsManager _sponsors = default!;
+        [Dependency] private readonly SharedSponsorManager _sponsors = default!; // Forge-Change
 
         private EntityQuery<GhostComponent> _ghostQuery;
         private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -440,6 +439,7 @@ namespace Content.Server.Ghost
                 return null;
             }
 
+            // Forge-Change-Start
             var user = mind.Comp.UserId;
             EntityUid ghost;
 
@@ -454,6 +454,7 @@ namespace Content.Server.Ghost
             {
                 ghost = SpawnAtPosition(GameTicker.ObserverPrototypeName, spawnPosition.Value);
             }
+            // Forge-Change-End
 
             var ghostComponent = Comp<GhostComponent>(ghost);
 

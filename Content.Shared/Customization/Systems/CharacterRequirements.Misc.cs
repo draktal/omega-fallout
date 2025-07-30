@@ -1,4 +1,3 @@
-using Content.Shared.Customization.Systems;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using JetBrains.Annotations;
@@ -107,7 +106,7 @@ public sealed partial class SponsorRequirement : CharacterRequirement
         out string? reason,
         int depth = 0)
     {
-        var sponsorManager = IoCManager.Resolve<ISponsorsManager>();
+        var sponsorManager = IoCManager.Resolve<SharedSponsorManager>();
         var playerManager = IoCManager.Resolve<ISharedPlayerManager>();
         var user = playerManager.LocalUser;
 

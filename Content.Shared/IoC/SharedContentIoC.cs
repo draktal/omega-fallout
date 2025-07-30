@@ -14,5 +14,6 @@ public static class SharedContentIoC
         IoCManager.Register<ContentLocalizationManager, ContentLocalizationManager>();
         IoCManager.Register<TagSystem>();
         IoCManager.Register<EntityWhitelistSystem>();
+        IoCManager.Register<SharedSponsorManager>(); // Forge-Change
     }
 }

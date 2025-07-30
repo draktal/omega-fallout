@@ -1,14 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Content.Server._NC.Sponsors;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
 using Content.Server.MoMMI;
 using Content.Server.Players.RateLimiting;
 using Content.Server.Preferences.Managers;
-using Content.Shared._NC.Sponsors;
+using Content.Shared._NC.Sponsors; // Forge-Change
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
@@ -46,7 +45,7 @@ namespace Content.Server.Chat.Managers
         [Dependency] private readonly INetConfigurationManager _netConfigManager = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!;
         [Dependency] private readonly PlayerRateLimitManager _rateLimitManager = default!;
-        [Dependency] private readonly SponsorsManager _sponsors = default!;
+        [Dependency] private readonly SharedSponsorManager _sponsors = default!; // Forge-Change
 
         /// <summary>
         /// The maximum length a player-sent message can be sent
@@ -255,11 +254,13 @@ namespace Content.Server.Chat.Managers
                 colorOverride = prefs.AdminOOCColor;
             }
 
+            // Forge-Change-Start
             if (_sponsors.TryGetSponsorData(player.UserId, out SponsorData? data)
                 && _sponsors.TryGetSponsorColor(data.Level, out var sponsorColor))
             {
                 wrappedMessage = Loc.GetString("chat-manager-send-ooc-sponsor-wrap-message", ("sponsorColor", sponsorColor), ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
             }
+            // Forge-Change-End
 
             if (_netConfigManager.GetClientCVar(player.Channel, CCVars.ShowOocPatronColor) && player.Channel.UserData.PatronTier is { } patron && PatronOocColors.TryGetValue(patron, out var patronColor))
             {
