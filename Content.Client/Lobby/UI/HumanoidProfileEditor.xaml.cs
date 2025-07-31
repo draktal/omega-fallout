@@ -5,7 +5,7 @@ using Content.Client.Administration.UI;
 using Content.Client.Guidebook;
 using Content.Client.Humanoid;
 using Content.Client.Message;
-using Content.Client.Sprite; // Corvax-Change
+using Content.Client.Sprite; // Forge-Change
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Guidebook;
@@ -13,7 +13,7 @@ using Content.Shared.CCVar;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Clothing.Loadouts.Prototypes;
 using Content.Shared.Clothing.Loadouts.Systems;
-using Content.Shared._NC.CorvaxVars; // Corvax-Fallout-Barks
+using Content.Shared._NC.CorvaxVars; // Forge-Change-Barks
 using Content.Shared.Customization.Systems;
 using Content.Shared.Dataset;
 using Content.Shared.GameTicking;
@@ -39,7 +39,9 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using Direction = Robust.Shared.Maths.Direction;
-using Robust.Shared.ContentPack; // Corvax-Change
+using Robust.Shared.ContentPack; // Forge-Change
+using Content.Shared._NC.Sponsors; // Forge-Change
+using Robust.Shared.Player; // Forge-Change
 
 namespace Content.Client.Lobby.UI
 {
@@ -2307,6 +2309,12 @@ namespace Content.Client.Lobby.UI
             // Get the highest priority job to use for loadout filtering
             var highJob = _controller.GetPreferredJob(Profile ?? HumanoidCharacterProfile.DefaultWithSpecies());
 
+            // Forge-Change-Start Get netUser and chek sponsor
+            var playerMan = IoCManager.Resolve<ISharedPlayerManager>();
+            var sponsorMan = IoCManager.Resolve<SharedSponsorManager>();
+            var user = playerMan.LocalUser;
+            // Forge-Change-End
+
             _loadouts.Clear();
             foreach (var loadout in _prototypeManager.EnumeratePrototypes<LoadoutPrototype>())
             {
@@ -2322,6 +2330,15 @@ namespace Content.Client.Lobby.UI
                     _cfgManager,
                     out _
                 );
+
+                // Forge-Change-Start
+                if (loadout.Level != null
+                    && user != null
+                    && sponsorMan.TryGetSponsorData(user.Value, out SponsorData? data)
+                    && data.Level < loadout.Level)
+                    continue;
+                // Forge-Change-End
+
                 _loadouts.Add(loadout, usable);
 
                 var list = _loadoutPreferences.ToList();
