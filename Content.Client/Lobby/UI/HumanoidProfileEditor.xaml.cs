@@ -2332,11 +2332,14 @@ namespace Content.Client.Lobby.UI
                 );
 
                 // Forge-Change-Start
-                if (loadout.Level != null
-                    && user != null
-                    && sponsorMan.TryGetSponsorData(user.Value, out SponsorData? data)
-                    && data.Level < loadout.Level)
-                    continue;
+                if (loadout.Level != null && user != null)
+                {
+                    if (!sponsorMan.TryGetSponsorData(user.Value, out SponsorData? data))
+                        continue;
+
+                    if (loadout.Level > data.Level)
+                        continue;
+                }
                 // Forge-Change-End
 
                 _loadouts.Add(loadout, usable);
