@@ -52,7 +52,7 @@ public sealed partial class LoadoutPrototype : IPrototype
     public LoadoutFunction[] Functions { get; private set; } = Array.Empty<LoadoutFunction>();
     // Forge-Change-Start
     [DataField]
-    public SponsorLevel? Level = new();
+    public SponsorLevel? Level = SponsorLevel.None;
     // Forge-Change-End
 }
 
