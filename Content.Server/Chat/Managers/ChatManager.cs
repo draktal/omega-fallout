@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Content.Server._NC.Sponsors; // Forge-Change
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
@@ -45,7 +46,7 @@ namespace Content.Server.Chat.Managers
         [Dependency] private readonly INetConfigurationManager _netConfigManager = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!;
         [Dependency] private readonly PlayerRateLimitManager _rateLimitManager = default!;
-        [Dependency] private readonly SharedSponsorManager _sponsors = default!; // Forge-Change
+        [Dependency] private readonly SponsorManager _sponsors = default!; // Forge-Change
 
         /// <summary>
         /// The maximum length a player-sent message can be sent
@@ -255,8 +256,8 @@ namespace Content.Server.Chat.Managers
             }
 
             // Forge-Change-Start
-            if (_sponsors.TryGetSponsorData(player.UserId, out SponsorData? data)
-                && _sponsors.TryGetSponsorColor(data.Level, out var sponsorColor))
+            _sponsors.GetSponsor(player.UserId, out SponsorLevel level);
+            if (_sponsors.TryGetSponsorColor(level, out var sponsorColor))
             {
                 wrappedMessage = Loc.GetString("chat-manager-send-ooc-sponsor-wrap-message", ("sponsorColor", sponsorColor), ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
             }

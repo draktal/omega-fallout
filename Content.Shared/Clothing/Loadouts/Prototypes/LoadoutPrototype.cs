@@ -50,10 +50,6 @@ public sealed partial class LoadoutPrototype : IPrototype
 
     [DataField(serverOnly: true)]
     public LoadoutFunction[] Functions { get; private set; } = Array.Empty<LoadoutFunction>();
-    // Forge-Change-Start
-    [DataField]
-    public SponsorLevel? Level = SponsorLevel.None;
-    // Forge-Change-End
 }
 
 /// This serves as a hook for loadout functions to modify one or more entities upon spawning in.

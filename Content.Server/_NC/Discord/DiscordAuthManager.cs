@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._NC.CCCvars;
+using Content.Server._NC.Sponsors;
 using Content.Shared._NC.DiscordAuth;
 using Content.Shared._NC.Sponsors;
 using Robust.Server.Player;
@@ -19,7 +20,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
     [Dependency] private readonly IServerNetManager _netMgr = default!;
     [Dependency] private readonly IPlayerManager _playerMgr = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly SharedSponsorManager _sponsors = default!;
+    [Dependency] private readonly SponsorManager _sponsors = default!;
 
     private ISawmill _sawmill = default!;
 
@@ -46,6 +47,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         _cfg.OnValueChanged(CCCVars.DiscordGuildID, v => _discordGuild = v, true);
 
         _netMgr.RegisterNetMessage<MsgDiscordAuthRequired>();
+        _netMgr.RegisterNetMessage<MsgSyncSponsorData>();
         _netMgr.RegisterNetMessage<MsgDiscordAuthCheck>(OnAuthCheck);
         _netMgr.Disconnect += OnDisconnect;
 
@@ -56,7 +58,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
     private void OnDisconnect(object? sender, NetDisconnectedArgs e)
     {
-        _sponsors.CachedSponsors.Remove(e.Channel.UserId);
+        _sponsors.Sponsors.Remove(e.Channel.UserId);
     }
 
     private async void OnAuthCheck(MsgDiscordAuthCheck msg)
@@ -115,10 +117,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
 
             var roles = await GetRoles(userId);
             if (roles == null)
-            {
-                _sawmill.Info($"Не найдены роли пользователя {userId}");
                 return EmptyResponseErrorRoleData();
-            }
 
             var isInGuild = await CheckGuild(userId, cancel);
             if (!isInGuild)
@@ -130,9 +129,14 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
             var level = SponsorData.ParseRoles(roles);
             if (level != SponsorLevel.None)
             {
-                var data = new SponsorData(level, userId);
-                _sponsors.CachedSponsors.Add(userId, data);
-                _sawmill.Info($"{userId} is sponsor now.\nUserId: {userId}. Level: {Enum.GetName(data.Level)}:{(int) data.Level}");
+                _sponsors.Sponsors.Add(userId, level);
+                var session = _playerMgr.GetSessionById(userId);
+                var message = new MsgSyncSponsorData
+                {
+                    Level = level,
+                };
+                _netMgr.ServerSendMessage(message, session.Channel);
+                _sawmill.Info($"{userId} is sponsor now.\nUserId: {userId}. Level: {Enum.GetName(level)}:{(int) level}");
             }
 
             return new DiscordData(true, new DiscordUserData(userId, discordUuid.DiscordId));

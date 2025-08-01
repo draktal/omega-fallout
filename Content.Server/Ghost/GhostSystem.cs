@@ -1,11 +1,12 @@
 using System.Linq;
 using System.Numerics;
+using Content.Server._NC.Sponsors; // Forge-Change
 using Content.Server.GameTicking;
 using Content.Server.Ghost.Components;
 using Content.Server.Mind;
 using Content.Server.Roles.Jobs;
 using Content.Server.Warps;
-using Content.Shared._NC.Sponsors;
+using Content.Shared._NC.Sponsors; // Forge-Change
 using Content.Shared.Actions;
 using Content.Shared.Examine;
 using Content.Shared.Eye;
@@ -45,7 +46,7 @@ namespace Content.Server.Ghost
         [Dependency] private readonly TransformSystem _transformSystem = default!;
         [Dependency] private readonly VisibilitySystem _visibilitySystem = default!;
         [Dependency] private readonly MetaDataSystem _metaData = default!;
-        [Dependency] private readonly SharedSponsorManager _sponsors = default!; // Forge-Change
+        [Dependency] private readonly SponsorManager _sponsors = default!; // Forge-Change
 
         private EntityQuery<GhostComponent> _ghostQuery;
         private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -443,10 +444,10 @@ namespace Content.Server.Ghost
             var user = mind.Comp.UserId;
             EntityUid ghost;
 
-            if (user != null
-                && _sponsors.TryGetSponsorData(user.Value, out SponsorData? data)
-                && _sponsors.TryGetSponsorGhost(data.Level, out var sponsorGhost))
+            if (user != null)
             {
+                _sponsors.GetSponsor(user.Value, out SponsorLevel level);
+                _sponsors.TryGetSponsorGhost(level, out var sponsorGhost);
                 ghost = SpawnAtPosition(sponsorGhost, spawnPosition.Value);
             }
 

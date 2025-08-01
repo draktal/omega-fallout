@@ -5,8 +5,8 @@ using Robust.Shared.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
-using Content.Shared._NC.CorvaxVars;
-using Content.Shared._NC.Sponsors;
+using Content.Shared._NC.CorvaxVars; // Forge-Change
+using Content.Shared._NC.Sponsors; // Forge-Change
 
 namespace Content.Shared.Customization.Systems;
 
@@ -31,6 +31,7 @@ public sealed partial class CVarRequirement : CharacterRequirement
         IEntityManager entityManager,
         IPrototypeManager prototypeManager,
         IConfigurationManager configManager,
+        ISharedSponsorManager sponsorManager, // Forge-Change
         out string? reason,
         int depth = 0
     )
@@ -71,6 +72,7 @@ public sealed partial class MinPlayersRequirement : CharacterRequirement
         IEntityManager entityManager,
         IPrototypeManager prototypeManager,
         IConfigurationManager configManager,
+        ISharedSponsorManager sponsorManager,
         out string? reason,
         int depth = 0)
     {
@@ -88,3 +90,39 @@ public sealed partial class MinPlayersRequirement : CharacterRequirement
         return playerCount >= Min;
     }
 }
+
+[UsedImplicitly, Serializable, NetSerializable]
+public sealed partial class SponsorRequirement : CharacterRequirement
+{
+    [DataField(required: true)]
+    public byte Level;
+
+    public override bool IsValid(
+        JobPrototype job,
+        HumanoidCharacterProfile profile,
+        Dictionary<string, TimeSpan> playTimes,
+        bool whitelisted,
+        IPrototype prototype,
+        IEntityManager entityManager,
+        IPrototypeManager prototypeManager,
+        IConfigurationManager configManager,
+        ISharedSponsorManager sponsorManager,
+        out string? reason,
+        int depth = 0)
+    {
+        reason = Loc.GetString(
+            "character-sponsor-requirement",
+            ("level", Level));
+        var playerManager = IoCManager.Resolve<ISharedPlayerManager>();
+        if (playerManager.LocalUser != null)
+        {
+            var user = playerManager.LocalUser.Value;
+            sponsorManager.GetSponsor(user, out SponsorLevel level);
+            return (byte) level >= Level;
+        }
+
+        else
+            return false;
+    }
+}
+

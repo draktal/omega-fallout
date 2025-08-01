@@ -1,4 +1,3 @@
-using Robust.Shared.Network;
 
 namespace Content.Shared._NC.Sponsors;
 
@@ -40,24 +39,15 @@ public sealed class SponsorData
         foreach (var role in roles)
         {
             if (RolesMap.ContainsKey(role))
-                if ((int) RolesMap[role] > (int) highestRole)
+                if ((byte) RolesMap[role] > (byte) highestRole)
                     highestRole = RolesMap[role];
         }
 
         return highestRole;
     }
-
-    public SponsorData(SponsorLevel level, NetUserId userId)
-    {
-        Level = level;
-        UserId = userId;
-    }
-
-    public SponsorLevel Level;
-    public NetUserId UserId;
 }
 
-public enum SponsorLevel
+public enum SponsorLevel : byte
 {
     None = 0,
     Level1 = 1,
