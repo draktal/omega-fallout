@@ -41,7 +41,9 @@ using Robust.Shared.Utility;
 using Direction = Robust.Shared.Maths.Direction;
 using Robust.Shared.ContentPack; // Forge-Change
 using Content.Shared._NC.Sponsors; // Forge-Change
-using Robust.Shared.Player; // Forge-Change
+using Robust.Shared.Player;
+using System.Reflection;
+using Robust.Shared.Network; // Forge-Change
 
 namespace Content.Client.Lobby.UI
 {
@@ -2312,7 +2314,6 @@ namespace Content.Client.Lobby.UI
             // Forge-Change-Start Get netUser and chek sponsor
             var playerMan = IoCManager.Resolve<ISharedPlayerManager>();
             var sponsorMan = IoCManager.Resolve<SharedSponsorManager>();
-            var user = playerMan.LocalUser;
             // Forge-Change-End
 
             _loadouts.Clear();
@@ -2332,13 +2333,26 @@ namespace Content.Client.Lobby.UI
                 );
 
                 // Forge-Change-Start
-                if (loadout.Level > SponsorLevel.None && user != null)
+                if (loadout.Level > SponsorLevel.None)
                 {
-                    if (!sponsorMan.TryGetSponsorData(user.Value, out SponsorData? data))
-                        continue;
+                    if (playerMan.LocalSession != null)
+                    {
+                        if (!playerMan.TryGetUserId(playerMan.LocalSession.Data.UserName, out NetUserId user))
+                        {
+                            Logger.Error("Не удалось получить userID");
+                            continue;
+                        }
 
-                    if (loadout.Level > data.Level)
-                        continue;
+                        if (!sponsorMan.TryGetSponsorData(user, out SponsorData? data))
+                        {
+                            Logger.Error("Не удалось получить SponsorData");
+                            continue;
+                        }
+
+                        if (loadout.Level > data.Level)
+                            continue;
+                    }
+
                 }
                 // Forge-Change-End
 
