@@ -2342,6 +2342,7 @@ namespace Content.Client.Lobby.UI
                             Logger.Error("Не удалось получить userID");
                             continue;
                         }
+                        Logger.Info($"User id is {user}");
 
                         if (!sponsorMan.TryGetSponsorData(user, out SponsorData? data))
                         {
