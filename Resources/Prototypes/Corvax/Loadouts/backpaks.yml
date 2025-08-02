@@ -178,8 +178,6 @@
       - Vault
     - !type:CharacterItemGroupRequirement
       group: N14LodaoutBags
-    - !type:SponsorRequirement
-      level: 3
   items:
     - N14ClothingBackpackVaultPurple
   functions:
