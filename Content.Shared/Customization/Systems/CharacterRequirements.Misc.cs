@@ -121,7 +121,7 @@ public sealed partial class SponsorRequirement : CharacterRequirement
         var data = playerSys.ContentData(session);
         if (data != null)
         {
-            sponsorManager.GetSponsor(data.UserId, out SponsorLevel level);
+            sponsorManager.TryGetSponsor(data.UserId, out SponsorLevel level);
             return (byte) level >= Level;
         }
         else return false;

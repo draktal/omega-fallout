@@ -133,7 +133,8 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
                 var session = _playerMgr.GetSessionById(userId);
                 var message = new MsgSyncSponsorData
                 {
-                    Level = level,
+                    UserId = userId,
+                    Level = level
                 };
                 _netMgr.ServerSendMessage(message, session.Channel);
                 _sawmill.Info($"{userId} is sponsor now.\nUserId: {userId}. Level: {Enum.GetName(level)}:{(int) level}");

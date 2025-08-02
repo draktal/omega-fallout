@@ -10,14 +10,9 @@ public sealed class SponsorManager : ISharedSponsorManager
 {
     public void Initialize() { }
     public Dictionary<NetUserId, SponsorLevel> Sponsors = new();
-    public void GetSponsor(NetUserId user, [NotNullWhen(true)] out SponsorLevel level)
+    public bool TryGetSponsor(NetUserId user, [NotNullWhen(true)] out SponsorLevel level)
     {
-        if (!Sponsors.TryGetValue(user, out SponsorLevel sponsor))
-        {
-            level = SponsorLevel.None;
-            return;
-        }
-        level = sponsor;
+        return Sponsors.TryGetValue(user, out level);
     }
 
     public bool TryGetSponsorColor(SponsorLevel level, [NotNullWhen(true)] out string? color)

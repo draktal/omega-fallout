@@ -446,9 +446,15 @@ namespace Content.Server.Ghost
 
             if (user != null)
             {
-                _sponsors.GetSponsor(user.Value, out SponsorLevel level);
-                _sponsors.TryGetSponsorGhost(level, out var sponsorGhost);
-                ghost = SpawnAtPosition(sponsorGhost, spawnPosition.Value);
+                if (_sponsors.TryGetSponsor(user.Value, out SponsorLevel level)
+                    && _sponsors.TryGetSponsorGhost(level, out var sponsorGhost))
+                {
+                    ghost = SpawnAtPosition(sponsorGhost, spawnPosition.Value);
+                }
+                else
+                {
+                    ghost = SpawnAtPosition(GameTicker.ObserverPrototypeName, spawnPosition.Value);
+                }
             }
 
             else

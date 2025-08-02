@@ -9,7 +9,7 @@ namespace Content.Client._NC.Sponsors;
 public sealed class SponsorManager : ISharedSponsorManager
 {
     [Dependency] private readonly IClientNetManager _netMgr = default!;
-    private SponsorLevel _level = SponsorLevel.None;
+    private Dictionary<NetUserId, SponsorLevel> _sponsors = new();
     public void Initialize()
     {
         _netMgr.RegisterNetMessage<MsgSyncSponsorData>(OnSponsorDataReceived);
@@ -17,11 +17,11 @@ public sealed class SponsorManager : ISharedSponsorManager
 
     private void OnSponsorDataReceived(MsgSyncSponsorData message)
     {
-        _level = message.Level;
+        _sponsors.Add(message.UserId, message.Level);
     }
 
-    public void GetSponsor(NetUserId user, out SponsorLevel level)
+    public bool TryGetSponsor(NetUserId user, out SponsorLevel level)
     {
-        level = _level;
+        return _sponsors.TryGetValue(user, out level);
     }
 }
