@@ -257,7 +257,8 @@ namespace Content.Server.Chat.Managers
 
             // Forge-Change-Start
             _sponsors.GetSponsor(player.UserId, out SponsorLevel level);
-            if (_sponsors.TryGetSponsorColor(level, out var sponsorColor))
+            if (_sponsors.TryGetSponsorColor(level, out var sponsorColor)
+                && !_adminManager.HasAdminFlag(player, AdminFlags.Admin))
             {
                 wrappedMessage = Loc.GetString("chat-manager-send-ooc-sponsor-wrap-message", ("sponsorColor", sponsorColor), ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
             }
