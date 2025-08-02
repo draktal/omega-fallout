@@ -6,7 +6,8 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Content.Shared._NC.CorvaxVars; // Forge-Change
-using Content.Shared._NC.Sponsors; // Forge-Change
+using Content.Shared._NC.Sponsors;
+using Robust.Shared.Network; // Forge-Change
 
 namespace Content.Shared.Customization.Systems;
 
@@ -114,21 +115,13 @@ public sealed partial class SponsorRequirement : CharacterRequirement
             "character-sponsor-requirement",
             ("level", Level));
         var playerManager = IoCManager.Resolve<ISharedPlayerManager>();
-        var user = playerManager.LocalUser;
-
-        if (user == null)
+        var userName = playerManager.LocalSession?.Data.UserName;
+        if (userName != null && playerManager.TryGetUserId(userName, out NetUserId user))
         {
-            if (entityManager.TryGetComponent(playerManager.LocalEntity, out ActorComponent? actor))
-                user = actor.PlayerSession.UserId;
-        }
-
-        if (user != null)
-        {
-            sponsorManager.GetSponsor(user.Value, out SponsorLevel level);
+            sponsorManager.GetSponsor(user, out SponsorLevel level);
             return (byte) level >= Level;
         }
-
-        return false;
+        else return false;
     }
 }
 
