@@ -39,3 +39,24 @@
       intervalSeconds: 2400
       minimumEntitiesSpawned: 1
       maximumEntitiesSpawned: 2
+
+- type: entity
+  parent: N14TimedSpawnerMolerat
+  id: N14TimedSpawnerJackal
+  categories: [ HideSpawnMenu ]
+  name: периодический спавнер шакала
+  components:
+    - type: Sprite
+      layers:
+        - state: blue
+        - sprite: Corvax/Mobs/Animals/jackal.rsi
+          state: jackal
+        - state: timed
+    - type: Timer
+    - type: TimedSpawner
+      prototypes:
+        - N14MobJackal
+      chance: 0.75
+      intervalSeconds: 2400
+      minimumEntitiesSpawned: 1
+      maximumEntitiesSpawned: 2
