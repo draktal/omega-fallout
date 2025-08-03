@@ -116,12 +116,11 @@ public sealed partial class SponsorRequirement : CharacterRequirement
             "character-sponsor-requirement",
             ("level", Level));
         var playerManager = IoCManager.Resolve<ISharedPlayerManager>();
-        var playerSys = entityManager.System<SharedPlayerSystem>();
-        var session = playerManager.LocalSession;
-        var data = playerSys.ContentData(session);
-        if (data != null)
+        var userName = playerManager.LocalSession?.Data.UserName;
+        if (userName != null
+            && playerManager.TryGetSessionByUsername(userName, out ICommonSession? session)
+            && sponsorManager.TryGetSponsor(session.UserId, out SponsorLevel level))
         {
-            sponsorManager.TryGetSponsor(data.UserId, out SponsorLevel level);
             return (byte) level >= Level;
         }
         else return false;
