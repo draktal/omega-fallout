@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using Content.Client._NC.Sponsors;
 using Content.Client.Guidebook;
 using Content.Client.Paint;
 using Content.Client.Players.PlayTimeTracking;
@@ -90,7 +91,7 @@ public sealed partial class LoadoutPreferenceSelector : Control
         HumanoidCharacterProfile profile, ref Dictionary<string, EntityUid> entities,
         IEntityManager entityManager, IPrototypeManager prototypeManager, IConfigurationManager configManager,
         CharacterRequirementsSystem characterRequirementsSystem, JobRequirementsManager jobRequirementsManager,
-        ISharedSponsorManager sponsorManager) // Forge-Change
+        SponsorManager sponsorManager) // Forge-Change
     {
         RobustXamlLoader.Load(this);
 

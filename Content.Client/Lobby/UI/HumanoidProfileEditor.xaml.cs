@@ -63,7 +63,7 @@ namespace Content.Client.Lobby.UI
         private readonly CharacterRequirementsSystem _characterRequirementsSystem;
         private readonly LobbyUIController _controller;
         private readonly IRobustRandom _random;
-        private readonly ISharedSponsorManager _sponsorMan; // Forge-Change
+        private readonly SponsorManager _sponsorMan; // Forge-Change
 
         private FlavorText.FlavorText? _flavorText;
         private BoxContainer _ccustomspecienamecontainerEdit => CCustomSpecieName;
@@ -123,7 +123,7 @@ namespace Content.Client.Lobby.UI
             JobRequirementsManager requirements,
             MarkingManager markings,
             IRobustRandom random,
-            ISharedSponsorManager sponsorMan // Forge-Change
+            SponsorManager sponsorMan // Forge-Change
             )
         {
             RobustXamlLoader.Load(this);
@@ -2319,6 +2319,7 @@ namespace Content.Client.Lobby.UI
 
             // Get the highest priority job to use for loadout filtering
             var highJob = _controller.GetPreferredJob(Profile ?? HumanoidCharacterProfile.DefaultWithSpecies());
+            var userId = _playerManager.LocalUser;
 
             _loadouts.Clear();
             foreach (var loadout in _prototypeManager.EnumeratePrototypes<LoadoutPrototype>())
@@ -2336,6 +2337,14 @@ namespace Content.Client.Lobby.UI
                     _sponsorMan, // Forge-Change
                     out _
                 );
+
+                if (loadout.Level != SponsorLevel.None && userId != null)
+                {
+                    if (!_sponsorMan.TryGetSponsor(userId.Value, out SponsorLevel level))
+                        continue;
+                    if (loadout.Level > level)
+                        continue;
+                }
 
                 _loadouts.Add(loadout, usable);
 

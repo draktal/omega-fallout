@@ -21,7 +21,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Utility;
 using Timer = Robust.Shared.Timing.Timer;
-using Content.Shared._NC.Sponsors; // Forge-Change
+using Content.Server._NC.Sponsors; // Forge-Change
 
 namespace Content.Server.Traits;
 
@@ -38,7 +38,7 @@ public sealed class TraitSystem : EntitySystem
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
-    [Dependency] private readonly ISharedSponsorManager _sponsorManager = default!; // Forge-Change
+    [Dependency] private readonly SponsorManager _sponsorManager = default!; // Forge-Change
 
     public override void Initialize()
     {

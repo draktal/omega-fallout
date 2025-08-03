@@ -1,10 +1,10 @@
 using System.Linq;
+using Content.Client._NC.Sponsors;
 using Content.Client.Humanoid;
 using Content.Client.Inventory;
 using Content.Client.Lobby.UI;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Station;
-using Content.Shared._NC.Sponsors; // Forge-Change
 using Content.Shared.CCVar;
 using Content.Shared.Clothing.Loadouts.Prototypes;
 using Content.Shared.Clothing.Loadouts.Systems;
@@ -43,7 +43,7 @@ public sealed class LobbyUIController : UIController, IOnStateEntered<LobbyState
     [Dependency] private readonly MarkingManager _markings = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly JobRequirementsManager _jobRequirements = default!;
-    [Dependency] private readonly ISharedSponsorManager _sponsorMan = default!; // Forge-Change
+    [Dependency] private readonly SponsorManager _sponsorMan = default!; // Forge-Change
     [UISystemDependency] private readonly HumanoidAppearanceSystem _humanoid = default!;
     [UISystemDependency] private readonly ClientInventorySystem _inventory = default!;
     [UISystemDependency] private readonly SharedLoadoutSystem _loadouts = default!;

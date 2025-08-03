@@ -93,37 +93,3 @@ public sealed partial class MinPlayersRequirement : CharacterRequirement
     }
 }
 
-[UsedImplicitly, Serializable, NetSerializable]
-public sealed partial class SponsorRequirement : CharacterRequirement
-{
-    [DataField(required: true)]
-    public byte Level;
-
-    public override bool IsValid(
-        JobPrototype job,
-        HumanoidCharacterProfile profile,
-        Dictionary<string, TimeSpan> playTimes,
-        bool whitelisted,
-        IPrototype prototype,
-        IEntityManager entityManager,
-        IPrototypeManager prototypeManager,
-        IConfigurationManager configManager,
-        ISharedSponsorManager sponsorManager,
-        out string? reason,
-        int depth = 0)
-    {
-        reason = Loc.GetString(
-            "character-sponsor-requirement",
-            ("level", Level));
-        var playerManager = IoCManager.Resolve<ISharedPlayerManager>();
-        var userName = playerManager.LocalSession?.Data.UserName;
-        if (userName != null
-            && playerManager.TryGetSessionByUsername(userName, out ICommonSession? session)
-            && sponsorManager.TryGetSponsor(session.UserId, out SponsorLevel level))
-        {
-            return (byte) level >= Level;
-        }
-        else return false;
-    }
-}
-

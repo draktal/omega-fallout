@@ -1,8 +1,8 @@
 using System.Linq;
+using Content.Client._NC.Sponsors; // Forge-Change
 using Content.Client.Eui;
 using Content.Client.Lobby;
 using Content.Client.Players.PlayTimeTracking;
-using Content.Shared._NC.Sponsors; // Forge-Change
 using Content.Shared.Clothing.Loadouts.Prototypes;
 using Content.Shared.Customization.Systems;
 using Content.Shared.Eui;
@@ -93,7 +93,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             var prefs = IoCManager.Resolve<IClientPreferencesManager>();
             var protoMan = IoCManager.Resolve<IPrototypeManager>();
             var configManager = IoCManager.Resolve<IConfigurationManager>();
-            var sponsorManager = IoCManager.Resolve<ISharedSponsorManager>(); // Forge-Change
+            var sponsorManager = IoCManager.Resolve<SponsorManager>(); // Forge-Change
 
             var groupedRoles = ghostState.GhostRoles.GroupBy(
                 role => (role.Name, role.Description, role.Requirements));

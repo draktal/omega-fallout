@@ -30,8 +30,6 @@
 
 - type: startingGear
   id: VaultSecurityGear
-  subGear: # Forge-Change
-  - VaultSecurityGearSponsor
   equipment:
     jumpsuit: N14ClothingUniformJumpsuitVault14
     back: N14ClothingBackpackVaultBlue # Forge-Change
@@ -52,15 +50,6 @@
     - N14CurrencyPrewarMoney100
     - N14MagazinePistol10mm
     - N14MagazinePistol10mm
-
-- type: startingGear # Forge-Change
-  id: VaultSecurityGearSponsor
-  requirements:
-  - !type:SponsorRequirement
-    level: 2
-  equipment:
-    id: N14VaultSecurityPDAGold
-
 
 - type: playTimeTracker
   id: VaultSecurity

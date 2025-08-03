@@ -30,8 +30,6 @@
 
 - type: startingGear
   id: VaultEngineerGear
-  subGear: # Forge-Change
-  - VaultEngineerGearSponsor
   equipment:
     head: ClothingHeadHatHardhatYellow
     jumpsuit: N14ClothingUniformJumpsuitVault14
@@ -45,14 +43,6 @@
     back:
     - N14Bandage
     - N14CurrencyPrewarMoney100
-
-- type: startingGear # Forge-Change
-  id: VaultEngineerGearSponsor
-  requirements:
-  - !type:SponsorRequirement
-    level: 2
-  equipment:
-    id: N14VaultEngineerPDAGold
 
 - type: playTimeTracker
   id: VaultEngineer

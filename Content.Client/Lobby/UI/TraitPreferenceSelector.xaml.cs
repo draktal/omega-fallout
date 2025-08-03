@@ -1,7 +1,7 @@
 using System.Text;
+using Content.Client._NC.Sponsors; // Forge-Change
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Stylesheets;
-using Content.Shared._NC.Sponsors; // Forge-Change
 using Content.Shared.Customization.Systems;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
@@ -49,7 +49,7 @@ public sealed partial class TraitPreferenceSelector : Control
     public TraitPreferenceSelector(TraitPrototype trait, JobPrototype highJob, HumanoidCharacterProfile profile,
         IEntityManager entityManager, IPrototypeManager prototypeManager, IConfigurationManager configManager,
         CharacterRequirementsSystem characterRequirementsSystem, JobRequirementsManager jobRequirementsManager,
-        ISharedSponsorManager sponsorManager) // Forge-Change
+        SponsorManager sponsorManager) // Forge-Change
     {
         RobustXamlLoader.Load(this);
 

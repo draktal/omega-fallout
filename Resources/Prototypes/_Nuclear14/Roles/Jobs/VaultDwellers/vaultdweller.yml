@@ -26,8 +26,6 @@
 
 - type: startingGear
   id: VaultDwellerGear
-  subGear: # Forge-Change
-  - VaultDwellerGearSponsor
   equipment:
     jumpsuit: N14ClothingUniformJumpsuitVault14
     back: N14ClothingBackpackVaultBlue # Forge-Change
@@ -39,14 +37,6 @@
     back:
     - N14Bandage
     - N14CurrencyPrewarMoney100
-
-- type: startingGear # Forge-Change
-  id: VaultDwellerGearSponsor
-  requirements:
-  - !type:SponsorRequirement
-    level: 2
-  equipment:
-    id: N14VaultPDAGold
 
 - type: playTimeTracker
   id: VaultDweller
