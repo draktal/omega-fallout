@@ -443,23 +443,28 @@ namespace Content.Server.Ghost
             // Forge-Change-Start
             var user = mind.Comp.UserId;
             EntityUid ghost;
-
-            if (user != null)
+            try
             {
-                if (_sponsors.TryGetSponsor(user.Value, out SponsorLevel level)
+                if (user != null && _sponsors.TryGetSponsor(user.Value, out var level)
                     && _sponsors.TryGetSponsorGhost(level, out var sponsorGhost))
                 {
-                    ghost = SpawnAtPosition(sponsorGhost, spawnPosition.Value);
+                    ghost = Spawn(sponsorGhost, spawnPosition.Value);
                 }
                 else
                 {
-                    ghost = SpawnAtPosition(GameTicker.ObserverPrototypeName, spawnPosition.Value);
+                    ghost = Spawn(GameTicker.ObserverPrototypeName, spawnPosition.Value);
+                }
+
+                if (!HasComp<GhostComponent>(ghost))
+                {
+                    AddComp<GhostComponent>(ghost);
+                    Log.Warning($"Added missing GhostComponent to {ToPrettyString(ghost)}");
                 }
             }
-
-            else
+            catch (Exception ex)
             {
-                ghost = SpawnAtPosition(GameTicker.ObserverPrototypeName, spawnPosition.Value);
+                Log.Error($"Failed to spawn ghost: {ex}");
+                return null;
             }
             // Forge-Change-End
 
