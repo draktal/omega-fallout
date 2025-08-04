@@ -12,7 +12,6 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Content.Server._NC.Discord;
 
@@ -31,18 +30,6 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
     private string _apiUrl = string.Empty;
     private string _apiKey = string.Empty;
     private string _discordGuild = String.Empty;
-    private TimeSpan _apiDelay = TimeSpan.FromMilliseconds(1200);
-    private DateTimeOffset _lastApiCall = DateTimeOffset.MinValue;
-    private readonly MemoryCache _cache = new(new MemoryCacheOptions
-    {
-        SizeLimit = 1024,
-        ExpirationScanFrequency = TimeSpan.FromMinutes(5)
-    });
-    private readonly MemoryCacheEntryOptions _cacheOptions = new MemoryCacheEntryOptions
-    {
-        Size = 1,
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
-    };
     public event EventHandler<ICommonSession>? PlayerVerified;
 
     public void PostInject()
@@ -112,153 +99,142 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         args.Session.Channel.SendMessage(message);
     }
 
-    private async Task<DiscordData> IsVerified(NetUserId userId, CancellationToken cancel = default)
+    public async Task<DiscordData> IsVerified(NetUserId userId, CancellationToken cancel = default)
     {
-        _sawmill.Debug($"Verifying Discord for {userId}");
+        _sawmill.Debug($"Player {userId} check Discord verification");
 
-        var cacheKey = $"discord_verified_{userId}";
-        if (_cache.TryGetValue<DiscordData>(cacheKey, out var cached))
-            return cached!;
+        var requestUrl = $"{_apiUrl}/uuid?method=uid&id={userId}";
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
+        // try catch block to catch HttpRequestExceptions due to remote service unavailability
         try
         {
-            // 1. Check Discord UUID
-            var uuid = await SafeApiRequest(async () =>
-            {
-                var response = await _httpClient.GetAsync($"{_apiUrl}/uuid?method=uid&id={userId}", cancel);
-                return response.IsSuccessStatusCode
-                    ? await response.Content.ReadFromJsonAsync<DiscordUuidResponse>(cancellationToken: cancel)
-                    : null;
-            }, "uuid");
-
-            if (uuid == null)
+            var response = await _httpClient.SendAsync(request, cancel);
+            if (!response.IsSuccessStatusCode)
                 return UnauthorizedErrorData();
 
-            // 2. Check guild membership
-            var inGuild = await CheckGuild(userId, cancel);
-            if (!inGuild)
-                return NotInGuildErrorData();
+            var discordUuid = await response.Content.ReadFromJsonAsync<DiscordUuidResponse>(cancel);
 
-            // 3. Get roles
-            var roles = await GetRoles(userId, cancel);
+            var roles = await GetRoles(userId);
             if (roles == null)
                 return EmptyResponseErrorRoleData();
 
-            // Process sponsor data
+            var isInGuild = await CheckGuild(userId, cancel);
+            if (!isInGuild)
+                return NotInGuildErrorData();
+
+            if (discordUuid is null)
+                return EmptyResponseErrorData();
+
             var level = SponsorData.ParseRoles(roles);
             if (level != SponsorLevel.None)
             {
-                _sponsors.Sponsors[userId] = level;
-                var message = new MsgSyncSponsorData { UserId = userId, Level = level };
-                if (_playerMgr.TryGetSessionById(userId, out var session))
-                    _netMgr.ServerSendMessage(message, session.Channel);
-
-                _sawmill.Info($"Sponsor updated: {userId} ({level})");
+                _sponsors.Sponsors.Add(userId, level);
+                var session = _playerMgr.GetSessionById(userId);
+                var message = new MsgSyncSponsorData
+                {
+                    UserId = userId,
+                    Level = level
+                };
+                _netMgr.ServerSendMessage(message, session.Channel);
+                _sawmill.Info($"{userId} is sponsor now.\nUserId: {userId}. Level: {Enum.GetName(level)}:{(int) level}");
             }
 
-            var result = new DiscordData(true, new DiscordUserData(userId, uuid.DiscordId));
-            _cache.Set(cacheKey, result, _cacheOptions);
-            return result;
+            return new DiscordData(true, new DiscordUserData(userId, discordUuid.DiscordId));
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            _sawmill.Error($"Discord verification failed: {ex.Message}");
+            _sawmill.Error("Remote auth service is unreachable. Check if its online!");
+            return ServiceUnreachableErrorData();
+        }
+        catch (Exception e)
+        {
+            _sawmill.Error($"Unexpected error verifying user via auth service. Error: {e.Message}. Stack: \n{e.StackTrace}");
             return UnexpectedErrorData();
         }
     }
 
     private async Task<bool> CheckGuild(NetUserId userId, CancellationToken cancel = default)
     {
-        var cacheKey = $"discord_guild_{userId}";
-        if (_cache.TryGetValue<bool>(cacheKey, out var cached))
-            return cached;
+        if (RolesCache.ContainsKey(userId))
+            return true;
 
-        return await SafeApiRequest(async () =>
+        var requestUrl = $"{_apiUrl}/guilds?method=uid&id={userId}";
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+        var response = await _httpClient.SendAsync(request, cancel);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
         {
-            var response = await _httpClient.GetAsync($"{_apiUrl}/guilds?method=uid&id={userId}", cancel);
+            var retryAfter = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30;
+            await Task.Delay(TimeSpan.FromSeconds(retryAfter));
+            return await CheckGuild(userId);
+        }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-            {
-                var retryAfter = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(30);
-                await Task.Delay(retryAfter, cancel);
-                return await CheckGuild(userId, cancel);
-            }
+        if (!response.IsSuccessStatusCode)
+            return false;
 
-            if (!response.IsSuccessStatusCode)
-                return false;
+        var guilds = await response.Content.ReadFromJsonAsync<DiscordGuildsResponse>(cancel);
+        if (guilds is null)
+            return false;
 
-            var guilds = await response.Content.ReadFromJsonAsync<DiscordGuildsResponse>(cancellationToken: cancel);
-            var result = guilds?.Guilds.Any(g => g.Id == _discordGuild) ?? false;
-            _cache.Set(cacheKey, result, _cacheOptions);
-            return result;
-        }, "guilds");
+        return guilds.Guilds.Any(guild => guild.Id == _discordGuild);
     }
 
-    private async Task<List<string>?> GetRoles(NetUserId userId, CancellationToken cancel = default)
+    private async Task<List<string>?> GetRoles(NetUserId userId)
     {
-        var cacheKey = $"discord_roles_{userId}";
-        if (_cache.TryGetValue<List<string>>(cacheKey, out var cached))
-            return cached;
-
-        return await SafeApiRequest(async () =>
+        if (RolesCache.TryGetValue(userId, out var cached))
         {
-            var response = await _httpClient.GetAsync($"{_apiUrl}/roles?method=uid&id={userId}&guildId={_discordGuild}", cancel);
+            if (cached.Expiry > DateTimeOffset.Now)
+                return cached.Roles;
 
-            if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
-            {
-                var retryAfter = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(30);
-                await Task.Delay(retryAfter, cancel);
-                return await GetRoles(userId, cancel);
-            }
+            RolesCache.Remove(userId);
+        }
 
-            if (!response.IsSuccessStatusCode)
-                return null;
+        var requestUrl = $"{_apiUrl}/roles?method=uid&id={userId}&guildId={_discordGuild}";
+        var response = await _httpClient.GetAsync(requestUrl);
 
-            var roles = await response.Content.ReadFromJsonAsync<RolesResponse>(cancellationToken: cancel);
-            var result = roles?.Roles.ToList();
-            if (result != null)
-                _cache.Set(cacheKey, result, _cacheOptions);
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+        {
+            var retryAfter = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30;
+            await Task.Delay(TimeSpan.FromSeconds(retryAfter));
+            return await GetRoles(userId);
+        }
 
-            return result;
-        }, "roles");
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var responseContent = await response.Content.ReadFromJsonAsync<RolesResponse>();
+        if (responseContent == null)
+            return null;
+
+        RolesCache[userId] = (DateTimeOffset.Now.AddHours(1), responseContent.Roles.ToList());
+        return responseContent.Roles.ToList();
     }
 
     public async Task<string?> GenerateLink(NetUserId userId, CancellationToken cancel = default)
     {
         _sawmill.Debug($"Generating link for {userId}");
+        var requestUrl = $"{_apiUrl}/link?uid={userId}";
 
-        return await SafeApiRequest(async () =>
-        {
-            var response = await _httpClient.GetAsync($"{_apiUrl}/link?uid={userId}", cancel);
-            if (!response.IsSuccessStatusCode)
-            {
-                _sawmill.Warning($"Failed to generate link for {userId}. Status: {response.StatusCode}");
-                return null;
-            }
-
-            var link = await response.Content.ReadFromJsonAsync<DiscordLinkResponse>(cancel);
-            return link?.Link;
-        }, "generate_link");
-    }
-    private async Task<T> SafeApiRequest<T>(Func<Task<T>> requestFunc, string endpoint)
-    {
-        var delay = _lastApiCall + _apiDelay - DateTimeOffset.Now;
-        if (delay > TimeSpan.Zero)
-        {
-            _sawmill.Debug($"Delaying API request to {endpoint} by {delay.TotalMilliseconds}ms");
-            await Task.Delay(delay);
-        }
-
+        // try catch block to catch HttpRequestExceptions due to remote service unavailability
         try
         {
-            _lastApiCall = DateTimeOffset.Now;
-            return await requestFunc();
+            var response = await _httpClient.GetAsync(requestUrl, cancel);
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var link = await response.Content.ReadFromJsonAsync<DiscordLinkResponse>(cancel);
+            return link!.Link;
         }
-        catch (HttpRequestException ex) when (ex.Message.Contains("rate limited"))
+        catch (HttpRequestException)
         {
-            _sawmill.Warning($"Hit rate limit on {endpoint}, retrying after delay...");
-            await Task.Delay(_apiDelay * 2);
-            return await SafeApiRequest(requestFunc, endpoint);
+            _sawmill.Error("Remote auth service is unreachable. Check if its online!");
+            return null;
+        }
+        catch (Exception e)
+        {
+            _sawmill.Error($"Unexpected error verifying user via auth service. Error: {e.Message}. Stack: \n{e.StackTrace}");
+            return null;
         }
     }
 }
