@@ -109,19 +109,16 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         // try catch block to catch HttpRequestExceptions due to remote service unavailability
         try
         {
+            await Task.Delay(TimeSpan.FromSeconds(1));
             var response = await _httpClient.SendAsync(request, cancel);
             if (!response.IsSuccessStatusCode)
                 return UnauthorizedErrorData();
 
             var discordUuid = await response.Content.ReadFromJsonAsync<DiscordUuidResponse>(cancel);
-
+            await Task.Delay(TimeSpan.FromSeconds(1));
             var roles = await GetRoles(userId);
             if (roles == null)
                 return EmptyResponseErrorRoleData();
-
-            var isInGuild = await CheckGuild(userId, cancel);
-            if (!isInGuild)
-                return NotInGuildErrorData();
 
             if (discordUuid is null)
                 return EmptyResponseErrorData();
@@ -220,6 +217,12 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         try
         {
             var response = await _httpClient.GetAsync(requestUrl, cancel);
+            if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+            {
+                var retryAfter = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? 30;
+                await Task.Delay(TimeSpan.FromSeconds(retryAfter));
+                return await GenerateLink(userId);
+            }
             if (!response.IsSuccessStatusCode)
                 return null;
 
