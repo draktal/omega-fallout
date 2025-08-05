@@ -24,9 +24,6 @@ public sealed partial class DiscordAuthGui : Control
         DLinkEdit.SetText(DiscordAuthManager.DiscordServerLink);
         InfoLabel.SetMessage(Loc.GetString("stalker-discord-info"));
         ErrorMessage.SetMessage(_discordAuthManager.ErrorMessage);
-        if (_discordAuthManager.QrCodeTexture == null)
-            QrCodeDisplay.Visible = false;
-        QrCodeDisplay.Texture = _discordAuthManager.QrCodeTexture;
 
         var uriOpener = IoCManager.Resolve<IUriOpener>();
 

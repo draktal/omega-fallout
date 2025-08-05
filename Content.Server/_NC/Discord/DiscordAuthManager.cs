@@ -1,5 +1,4 @@
-﻿using QRCoder;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -92,17 +91,15 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         }
 
         var link = await GenerateLink(args.Session.UserId);
-        var qrCode = await GenerateQrCode(link ?? "");
         var message = new MsgDiscordAuthRequired
         {
             Link = link ?? "",
             ErrorMessage = data.ErrorMessage ?? "",
-            QrCodeBytes = qrCode
         };
         args.Session.Channel.SendMessage(message);
     }
 
-    private async Task<DiscordData> IsVerified(NetUserId userId, CancellationToken cancel = default)
+    public async Task<DiscordData> IsVerified(NetUserId userId, CancellationToken cancel = default)
     {
         _sawmill.Debug($"Player {userId} check Discord verification");
 
@@ -211,7 +208,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         return responseContent.Roles.ToList();
     }
 
-    private async Task<string?> GenerateLink(NetUserId userId, CancellationToken cancel = default)
+    public async Task<string?> GenerateLink(NetUserId userId, CancellationToken cancel = default)
     {
         _sawmill.Debug($"Generating link for {userId}");
         var requestUrl = $"{_apiUrl}/link?uid={userId}";
@@ -240,29 +237,6 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         catch (Exception e)
         {
             _sawmill.Error($"Unexpected error verifying user via auth service. Error: {e.Message}. Stack: \n{e.StackTrace}");
-            return null;
-        }
-    }
-    private async Task<byte[]?> GenerateQrCode(string url)
-    {
-        try
-        {
-            using var qrGenerator = new QRCodeGenerator();
-            using var qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Default);
-            using var qrCode = new PngByteQRCode(qrCodeData);
-            byte[] darkColor = new byte[] { 255, 255, 255, 100 };
-            byte[] lightColor = new byte[] { 255, 255, 255, 0 };
-
-            return qrCode.GetGraphic(
-                pixelsPerModule: 10,
-                darkColorRgba: darkColor,
-                lightColorRgba: lightColor,
-                drawQuietZones: false
-            );
-        }
-        catch (Exception ex)
-        {
-            _sawmill.Error($"Failed to generate QR code: {ex.Message}");
             return null;
         }
     }
