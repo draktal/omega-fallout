@@ -37,3 +37,59 @@
         Slash: 0.8
         Piercing: 0.75
         Heat: 0.8
+
+- type: entity
+  parent: N14ClothingOuterPowerArmorMidwest
+  id: N14ClothingOuterPowerArmorHellCat
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Corvax/Clothing/OuterClothing/PowerArmor/hellCat.rsi
+  - type: Clothing
+    sprite: Corvax/Clothing/OuterClothing/PowerArmor/hellCat.rsi
+  - type: ToggleableClothing
+    clothingPrototypes:
+      head: N14ClothingHeadHelmetPowerArmorHellCat
+      gloves: N14ClothingPAGauntletsMBoS
+      shoes: N14ClothingPABootsMBoS
+      back: N14ClothingPowerSystemsBack
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.475
+        Slash: 0.475
+        Piercing: 0.525
+        Heat: 0.525
+        Caustic: 0.75
+        Radiation: 0.001
+  - type: Storage
+    grid:
+    - 0,0,3,2
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+      enum.ToggleClothingUiKey.Key:
+        type: ToggleableClothingBoundUserInterface
+
+- type: entity
+  parent: N14ClothingHeadHelmetPowerArmorMidwest
+  id: N14ClothingHeadHelmetPowerArmorHellCat
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Corvax/Clothing/Head/PowerArmorHelmets/hellCat.rsi
+  - type: PointLight
+    color: "#f80000"
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.8
+        Slash: 0.8
+        Piercing: 0.85
+        Heat: 0.85
+        Radiation: 0.65

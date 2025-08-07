@@ -45,3 +45,17 @@
   sponsorLevel: 2
   items:
     - N14ClothingOuterWandererCoat
+
+- type: loadout
+  id: LoadoutBoSMidwestHellCat
+  category: Roles
+  cost: 10
+  exclusive: true
+  sponsorLevel: 2
+  requirements:
+    - !type:CharacterJobRequirement
+      jobs:
+        - BoSMidPaladin
+        - BoSMidPaladinCommander
+  items:
+    - N14ClothingOuterPowerArmorHellCat
