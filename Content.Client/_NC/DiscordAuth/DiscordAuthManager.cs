@@ -44,4 +44,9 @@ public sealed class DiscordAuthManager
         }
         _state.RequestStateChange<DiscordAuthState>();
     }
+
+    public void OnAuthSkip()
+    {
+        _net.ClientSendMessage(new MsgDiscordAuthSkip());
+    }
 }

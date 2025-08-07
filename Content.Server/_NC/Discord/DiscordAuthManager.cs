@@ -50,6 +50,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         _netMgr.RegisterNetMessage<MsgDiscordAuthRequired>();
         _netMgr.RegisterNetMessage<MsgSyncSponsorData>();
         _netMgr.RegisterNetMessage<MsgDiscordAuthCheck>(OnAuthCheck);
+        _netMgr.RegisterNetMessage<MsgDiscordAuthSkip>(OnAuthSkip);
         _netMgr.Disconnect += OnDisconnect;
 
         _playerMgr.PlayerStatusChanged += OnPlayerStatusChanged;
@@ -60,6 +61,11 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
     private void OnDisconnect(object? sender, NetDisconnectedArgs e)
     {
         _sponsors.Sponsors.Remove(e.Channel.UserId);
+    }
+    private void OnAuthSkip(MsgDiscordAuthSkip msg)
+    {
+        var session = _playerMgr.GetSessionById(msg.MsgChannel.UserId);
+        PlayerVerified?.Invoke(this, session);
     }
 
     private async void OnAuthCheck(MsgDiscordAuthCheck msg)

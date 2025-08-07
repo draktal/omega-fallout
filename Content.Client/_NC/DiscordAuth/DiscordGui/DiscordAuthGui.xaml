@@ -34,6 +34,7 @@
             <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
                 <Button Name="AuthorizeButton" Text="{Loc 'stalker-discord-auth-text'}" HorizontalExpand="True" StyleClasses="OpenRight" />
                 <Button Name="DiscordButton" Text="{Loc 'stalker-discord-auth-dlink'}" HorizontalExpand="True" StyleClasses="OpenLeft" />
+                <Button Name="SkipButton" Text="{Loc 'stalker-discord-auth-skip'}" HorizontalExpand="True" />
             </BoxContainer>
         </BoxContainer>
     </Control>
