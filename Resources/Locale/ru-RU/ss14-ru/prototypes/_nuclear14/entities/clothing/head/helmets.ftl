@@ -110,3 +110,7 @@ ent-N14ClothingHeadTownGuardBrodieVisor = { ent-N14ClothingHeadTownGuardBrodie }
     .desc = Металлический шлем, обеспечивающий некоторую защиту для стражи города. Оснащён визором для защиты глаз от прямых повреждений.
 ent-N14ClothingHeadHatEldersDamagedSkullHelm = { ent-N14ClothingHeadHatEdlerSkullhelm }
     .desc = Череп могучего зверя, что был повреждён в бою, при этом остающийся все ещё хороший трофеем.
+ent-N14ClothingHeadHatBrotherHelmet = Шлем западного братства
+    .desc = Стандартный шлем. Удобный и эффективный для всех кроме оруженосцев
+ent-N14ClothingHeadHatBrotherCapralHelmet = Шлем капрала западного братства
+    .desc = Укрепленный шлем выдаваемый самым выдающимся членам западного братства стали

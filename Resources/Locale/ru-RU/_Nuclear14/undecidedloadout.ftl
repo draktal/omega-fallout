@@ -487,3 +487,97 @@ undecided-loadout-category-town-riot-description =
     Содержит: 1 копьё, 1 тяжёлый металлический щит, 1 охотничий револьвер,
     2 быстрых заряжателя .45-70, 1 старый плащ, 1 рулон бинтов,
     и базовый сухпаёк.
+
+# Наборы ЗБС 
+undecided-loadout-category-elder-rifle-name = Ящик огнестрельного снаряжения Старейшены
+undecided-loadout-category-elder-rifle-description = 
+    Достал. Приказал . Убил
+    Содержит : 1 Ак-112РП , 2 Барабана 5.45 , 1 коробку патронов 5.45 
+    Пистолет .45 , 3 магазина .45 , Бинты , 1 стимпак . Осколочная граната
+
+undecided-loadout-category-elder-laser-name = Ящик лазерного снаряжения Старейшены
+undecided-loadout-category-elder-laser-description = 
+    Идеальный набор для талантливого Старейшены!
+    Содержит : 1 Импульсное ружьё YK42B , 3 Батареи к нему
+    Магнитно-Лазерный пистолет , 2 источника питания к нему
+    Бинты, стимпанк, Плазменная граната
+
+undecided-loadout-category-paladin-rifle-name = Ящик огнестрельного снаряжения Паладина
+undecided-loadout-category-paladin-rifle-description = 
+    Эффективно. Быстро. Надежно
+    Содержит : 1 Ак-112РП , 2 Барабана 5.45 , 1 коробку патронов 5.45 
+    Пистолет .45 , 3 магазина .45 , Бинты , 1 стимпак 
+
+undecided-loadout-category-paladin-laser-name = Ящик лазерного снаряжения Паладина
+undecided-loadout-category-paladin-laser-description = 
+    Простой и эффективный способ решить проблемы,Точность не обязательна
+    Содержит : 1 Автоматическую лазерную винтовку , 3 Микроядерныебатареи
+    Лазерный пистолет , 2 энергобатареи , Бинты , 1 стимпак 
+
+undecided-loadout-category-paladin-plasma-name = Ящик плазменого снаряжения Паладина
+undecided-loadout-category-paladin-plasma-description = 
+    Самое страшное попасть по союзнику. А в прочем. . .
+    Содержит : 1 Плазменаная винтовка , 3 плазменных магазина
+    Магнитно-Лазерный пистолет, 2 источника питания к нему, Бинты ,
+    1 стимпак 
+
+undecided-loadout-category-knight-rifle-name = Ящик огнестрельного снаряжения Рыцаря
+undecided-loadout-category-knight-rifle-description = 
+    Снаряжение главное боевой единицы западного Братства
+    1 Ак-112 , 3 магазина 5.45 , 1 коробку патронов 5.45 
+    Пистолет .45 , 3 магазина .45 , Бинты , 1 стимпак 
+    Полный набор элементов комплекта MA-72 BoS
+
+undecided-loadout-category-knight-laser-name = Ящик лазерного снаряжения Рыцаря
+undecided-loadout-category-knight-laser-description = 
+    Набор для ведения лазерного боя. Стильно. Мощно 
+    1 Лазерная винтовка , 3 Микроядерныебатареи , 1 лазерный пистолет, 
+    2 энергобатареи , Бинты , 1 стимпак 
+    Полный набор элементов комплекта MB-72 BoS
+
+undecided-loadout-category-knight-plasma-name = Ящик плазменого снаряжения Рыцаря
+undecided-loadout-category-knight-plasma-description = 
+    Набор для любителей легкости, и радиации
+    1 Плазменный карабин, 3 плазменные Батареи , 1 пистолет 12.7, 
+    2 магазина 12.7 , 1 Нюка-Граната , Бинты , 1 стимпак 
+    Полный набор элементов комплекта MV-72 BoS
+
+undecided-loadout-category-squire-rifle-name = Ящик огнестрельного снаряжения Оруженосца
+undecided-loadout-category-squire-rifle-description = 
+    Основной набор оруженосца . Стандарт качества 
+    1 Ак-112 , 3 магазина 5.45 , 1 коробку патронов 5.45 
+    Бинты , 1 стимпак 
+    Полный набор элементов комплекта SQ-22 BoS
+
+undecided-loadout-category-squire-laser-name = Ящик лазерного снаряжения Оруженосца
+undecided-loadout-category-squire-laser-description = 
+    Удобный набор на все случаи жизни и не жизни
+    1 Лазерная винтовка образца А, 2 Микроядерныебатареи
+    Бинты ,Стимпак 
+    Полный набор элементов комплекта SQ-4 BoS
+
+undecided-loadout-category-squire-plasma-name = Ящик плазменого снаряжения Оруженосца
+undecided-loadout-category-squire-plasma-description = 
+    Легкий в освоении и простой в начале набор, Осторожно : Радиоактивен
+    1 Плазменный пистолет, 2 плазменные Батареи ,
+    2 Нюка-Гранаты , Бинты , 1 стимпак 
+    Полный набор элементов комплекта SQ-5 BoS
+
+undecided-loadout-category-scribe-rifle-name = Ящик огнестрельного снаряжения Скриптера
+undecided-loadout-category-scribe-rifle-description = 
+    Набор Скриптера-Оружейника 
+    1 Обрез , Коробка патрон 12 калибра ,10 пороха , 1 cтимпак
+    Разгрузка , Бинты , Свинец
+
+undecided-loadout-category-scribe-laser-name = Ящик лазерного снаряжения Скриптера
+undecided-loadout-category-scribe-laser-description = 
+    Набор Скриптера-Медика
+    1 Магнитно-Лазерный пистолет, 2 источника питания к нему
+    Анализатор организма ,Стимпак , Аптечка , Пояс медика
+
+undecided-loadout-category-scribe-plasma-name = Ящик плазменого снаряжения Скриптера
+undecided-loadout-category-scribe-plasma-description = 
+    Набор Скриптера-Инженера , Реактор не ждет 
+    1 Плазменный пистолет, 2 плазменные Батареи ,
+    Сталь , Стекло , Бинты , 1 стимпак , Пояс инструментов
+    Полный набор элементов Радио-Защиты

@@ -33,7 +33,7 @@
     jumpsuit: N14ClothingUniformJumpsuitBOSWestScribe
     back: N14ClothingBackpackSatchelMilitary
     shoes: N14ClothingBootsLeather
-    pocket1: BoSMidwestScribeKits
+    pocket1: BoSWesternScribeKits
     id: N14IDBrotherhoodWestHolotag
     ears: N14ClothingHeadsetBOSWest
   storage:

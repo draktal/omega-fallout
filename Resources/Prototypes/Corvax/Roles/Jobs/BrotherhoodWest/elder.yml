@@ -37,10 +37,10 @@
     head:  N14ClothingHeadHatBrotherhoodFieldCap
     outerClothing: N14ClothingOuterPowerArmorT51Elder
     hands: N14ClothingHandsGlovesCombat
-    pocket1: BoSMidwestPaladinKits
+    pocket1: BoSWesternEldenKits
     id: N14IDBrotherhoodWestHolotagElderCommander
     ears: N14ClothingHeadsetBOSWest
-    belt: ClothingBeltMilitary
+    belt: N14ClothingBeltBoSWesternKhignht
   storage:
     back:
     - N14BoxPlasticFilledMilitary

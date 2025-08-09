@@ -46,6 +46,18 @@ ent-BoSMidwestPaladinKits = Набор паладина Братства (Сре
 ent-BoSWashingtonPaladinKits = Набор паладина Братства (Вашингтон) (не выбран)
     .desc = Пожалуйста, возьмите только один.
 
+# Broother Western kits
+ent-BoSWesternEldenKits = Набор снаряжения Старейшены (не выбран)
+    .desc = Содержит снаряжение для Старейшены.
+ent-BoSWesternPaladinKits = Набор снаряжения Паладина (не выбран)
+    .desc = Содержит снаряжение для Паладина.
+ent-BoSWesternKnightKits = Набор снаряжения Рыцаря (не выбран)
+    .desc = Содержит снаряжение для Рыцаря.
+ent-BoSWesternSquireKits = Набор снаряжения Оруженосца (не выбран)
+    .desc = Содержит снаряжение для Оруженосца.
+ent-BoSWesternScribeKits = Набор снаряжения Скриптера (не выбран)
+    .desc = Содержит снаряжение для Скриптера.
+
 # Tribal kits
 ent-Triballoadoutkits = Набор племени (не выбран)
     .desc = Пожалуйста, возьмите только один.
@@ -215,3 +227,33 @@ ent-TownGuard_Brea_Set = Набор стража-прорыва
     .desc = Содержит снаряжение для городской стражи.
 ent-TownGuard_Riot_Set = Набор стража-подавления беспорядков
     .desc = Содержит снаряжение для городской стражи.
+
+# All of the Broother Western kits
+ent-KitBrootherWest_ElderlasSet = Набор снаряжения Старейшены-Лазерный
+    .desc = Содержит снаряжение для Старейшены.
+ent-KitBrootherWest_ElderrifleSet = Набор снаряжения Старейшены-Огнестрельный
+    .desc = Содержит снаряжение для Старейшены.
+ent-KitBrootherWest_PaladinlasSet = Набор снаряжения Паладина-Лазерный
+    .desc = Содержит снаряжение для Паладина.
+ent-KitBrootherWest_PaladinrifleSet = Набор снаряжения Паладина-Огнестрельный
+    .desc = Содержит снаряжение для Паладина.
+ent-KitBrootherWest_PaladinplasmaSet = Набор снаряжения Паладина-Плазменный
+    .desc = Содержит снаряжение для Паладина.
+ent-KitBrootherWest_KnightrifleSet = Набор снаряжения Рыцаря-Огнестрельный
+    .desc = Содержит снаряжение для Рыцаря.
+ent-KitBrootherWest_KnightlaserSet = Набор снаряжения Рыцаря-Лазерный
+    .desc = Содержит снаряжение для Рыцаря.
+ent-KitBrootherWest_KnightplasmaSet = Набор снаряжения Рыцаря-Плазменный
+    .desc = Содержит снаряжение для Рыцаря.
+ent-KitBrootherWest_SquirerifleSet = Набор снаряжения Оруженосца-Огнестрельный
+    .desc = Содержит снаряжение для Оруженосца.
+ent-KitBrootherWest_SquirelaserSet = Набор снаряжения Оруженосца-Лазерный
+    .desc = Содержит снаряжение для Оруженосца.
+ent-KitBrootherWest_SquireplasmaSet = Набор снаряжения Оруженосца-Плазменный
+    .desc = Содержит снаряжение для Оруженосца.
+ent-KitBrootherWest_ScriberifleSet = Набор снаряжения Скриптера-Огнестрельный
+    .desc = Содержит снаряжение для Скриптера.
+ent-KitBrootherWest_ScribelaserSet = Набор снаряжения Скриптера-Лазерный
+    .desc = Содержит снаряжение для Скриптера.
+ent-KitBrootherWest_ScribeplasmaSet = Набор снаряжения Скриптера-Плазменный
+    .desc = Содержит снаряжение для Скриптера.
