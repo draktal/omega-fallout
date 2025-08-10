@@ -57,5 +57,7 @@
       jobs:
         - BoSMidPaladin
         - BoSMidPaladinCommander
+        - BoSWestElderCommander
+        - BoSWestPaladin
   items:
     - N14ClothingOuterPowerArmorHellCat
