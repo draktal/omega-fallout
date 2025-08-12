@@ -88,6 +88,9 @@
     sprite: Objects/Misc/bureaucracy.rsi
     layers:
     - state: scrap
+    - state: scrap_bloodied # Forge-Change
+      map: ["enum.PaperVisualLayers.Writing"]
+      visible: false
 
 - type: entity
   name: office paper
