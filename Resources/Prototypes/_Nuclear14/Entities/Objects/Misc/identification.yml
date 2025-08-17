@@ -98,34 +98,34 @@
     sprite: _Nuclear14/Objects/Misc/identification.rsi
     state: passport
 
-- type: entity
-  parent: N14IDPassport
-  id: N14IDPassportCaravan
-  name: caravan guard ID
-  description: A stamped passport used by caravan guards as ID.
-  components:
-  - type: PresetIdCard
-    job: CaravanGuard
-  - type: ClothingAddFaction
-    faction: CaravanCompany
-
-- type: entity
-  parent: N14IDPassportCaravan
-  id: N14IDPassportCaravanTrader
-  name: caravan trader ID
-  description: A stamped passport used by caravaneers as ID.
-  components:
-  - type: PresetIdCard
-    job: CaravanTrader
-
-- type: entity
-  parent: N14IDPassportCaravan
-  id: N14IDPassportCaravanLeader
-  name: caravan leader ID
-  description: A stamped passport used by caravaneers as ID.
-  components:
-  - type: PresetIdCard
-    job: CaravanLeader
+#- type: entity
+#  parent: N14IDPassport
+#  id: N14IDPassportCaravan
+#  name: caravan guard ID
+#  description: A stamped passport used by caravan guards as ID.
+#  components:
+#  - type: PresetIdCard
+#    job: CaravanGuard
+#  - type: ClothingAddFaction
+#    faction: CaravanCompany
+#
+#- type: entity
+#  parent: N14IDPassportCaravan
+#  id: N14IDPassportCaravanTrader
+#  name: caravan trader ID
+#  description: A stamped passport used by caravaneers as ID.
+#  components:
+#  - type: PresetIdCard
+#    job: CaravanTrader
+#
+#- type: entity
+#  parent: N14IDPassportCaravan
+#  id: N14IDPassportCaravanLeader
+#  name: caravan leader ID
+#  description: A stamped passport used by caravaneers as ID.
+#  components:
+#  - type: PresetIdCard
+#    job: CaravanLeader
 
 - type: entity
   parent: N14IDPassportBlank

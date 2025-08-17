@@ -21,14 +21,14 @@
   - BoSWashingtonKnight
   - BoSWashingtonInitiate
 
-- type: department
-  id: CaravanCompany
-  description: department-CaravanCompany-description
-  color: "#a1887f"
-  roles:
-  - CaravanLeader
-  - CaravanTrader
-  - CaravanGuard
+#- type: department
+#  id: CaravanCompany
+#  description: department-CaravanCompany-description
+#  color: "#a1887f"
+#  roles:
+#  - CaravanLeader
+#  - CaravanTrader
+#  - CaravanGuard
 
 - type: department
   id: NCR

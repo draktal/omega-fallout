@@ -9,3 +9,11 @@ N14ClothingOuterLegionnaireMeleeArmor: null
 N14WeaponSniper50PipeBlueprint: null
 N14WeaponPlasmaMultiplas: null
 Gunpowder: null
+N14SpawnPointCaravanLeader: null
+N14SpawnPointCaravanTrader: null
+N14SpawnPointCaravanGuard: null
+N14WorkbenchIDPrinterCaravan: null
+N14DoorWoodSecureLockedCaravanGuard: null
+N14DoorCellMetalLockedCaravanGuard: null
+N14DoorWoodSecureLockedCaravanTrader: null
+N14DoorWoodSecureLockedCaravanLeader: null

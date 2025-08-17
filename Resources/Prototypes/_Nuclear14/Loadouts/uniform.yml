@@ -155,7 +155,7 @@
       departments:
         - Wastelander
         - Townsfolk
-        - CaravanCompany
+#        - CaravanCompany
 
 - type: loadout
   id: N14LoadoutUniformJumpsuitTrader
@@ -171,7 +171,7 @@
       departments:
         - Wastelander
         - Townsfolk
-        - CaravanCompany
+        # - CaravanCompany
 
 - type: loadout
   id: N14LoadoutUniformJumpsuitCaravan
@@ -187,7 +187,7 @@
       departments:
         - Wastelander
         - Townsfolk
-        - CaravanCompany
+        # - CaravanCompany
 
 - type: loadout
   id: N14LoadoutUniformJumpsuitMechanic
