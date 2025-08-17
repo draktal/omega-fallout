@@ -63,7 +63,7 @@ public sealed partial class IdCardConsoleComponent : Component
         "VaultOverseer",
         "TribeMember",
         "TribeChief",
-        "CaravanCompanyGuard",
+        // "CaravanCompanyGuard",
         "WastelandChaplain",
         "WastelandFarmer",
         "WashingtonInitiate",
