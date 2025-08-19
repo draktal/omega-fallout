@@ -186,7 +186,7 @@ public sealed partial class DiscordAuthManager : IPostInjectInit
         return guilds.Guilds.Any(guild => guild.Id == _discordGuild);
     }
 
-    private async Task<List<string>?> GetRoles(NetUserId userId)
+    public async Task<List<string>?> GetRoles(NetUserId userId)
     {
         if (RolesCache.TryGetValue(userId, out var cached))
         {

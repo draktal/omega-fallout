@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Content.Server.Connection.Whitelist;
 using Content.Server.Connection.Whitelist.Conditions;
 using Content.Server.Database;
+using Content.Shared._NC.Sponsors;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Players.PlayTimeTracking;
@@ -133,7 +134,17 @@ public sealed partial class ConnectionManager
     // Forge-Change-Start
     private async Task<bool> CheckConditionManualSponsor(NetUserData data)
     {
-        return _sponsorMan.Sponsors.ContainsKey(data.UserId);
+        var roles = await _discordAuth.GetRoles(data.UserId);
+
+        if (roles == null)
+            return false;
+
+        var level = SponsorData.ParseRoles(roles);
+
+        if (level == SponsorLevel.None)
+            return false;
+
+        return true;
     }
     // Forge-Change-End
 
