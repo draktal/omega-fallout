@@ -11,10 +11,12 @@ namespace Content.Client._NC.Trade;
 public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
     : BoundUserInterface(owner, uiKey)
 {
-    private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(5);
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(1);
 
     private readonly IPlayerManager _player = IoCManager.Resolve<IPlayerManager>();
     private readonly IGameTiming _timing = IoCManager.Resolve<IGameTiming>();
+
+    private int _lastHash;
 
     private NcStoreMenu? _menu;
     private TimeSpan _nextRefreshTime = TimeSpan.Zero;
@@ -44,6 +46,20 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
         if (state is not StoreUiState st)
             return;
 
+        var hash = 17;
+        hash = hash * 31 + st.Balance.GetHashCode();
+        foreach (var it in st.Listings)
+        {
+            hash = hash * 31 + (it.Id?.GetHashCode() ?? 0);
+            hash = hash * 31 + it.Price.GetHashCode();
+            hash = hash * 31 + it.Remaining.GetHashCode();
+            hash = hash * 31 + it.Owned.GetHashCode();
+            hash = hash * 31 + ((int) it.Mode).GetHashCode();
+        }
+
+        if (_menu != null && hash == _lastHash)
+            return;
+
         if (_menu == null)
         {
             _menu = this.CreateWindow<NcStoreMenu>();
@@ -51,17 +67,20 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
 
             _menu.OnBuyPressed += OnBuy;
             _menu.OnSellPressed += OnSell;
+            _menu.OnExchangePressed += OnExchange;
 
             _menu.OnClose += () =>
             {
-                _menu?.Orphan();
+                // здесь _menu гарантированно не null
+                _menu.Orphan();
                 _menu = null;
             };
         }
 
-        _menu.Populate(st.Listings.ToList());
         _menu.SetBalance(st.Balance);
+        _menu.Populate(st.Listings.ToList());
         _menu.Visible = true;
+        _lastHash = hash;
     }
 
     private void OnBuy(StoreListingData data, int qty)
@@ -69,7 +88,7 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
         if (Actor is null)
             return;
         SendMessage(new StoreBuyListingBoundUiMessage(data.Id, qty));
-        RequestRefresh();
+        RequestRefresh(true);
     }
 
     private void OnSell(StoreListingData data, int qty)
@@ -77,13 +96,14 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
         if (Actor is null)
             return;
         SendMessage(new StoreSellListingBoundUiMessage(data.Id, qty));
-        RequestRefresh();
+        RequestRefresh(true);
     }
 
-    private void OnExchange(StoreListingData data)
+    private void OnExchange(StoreListingData data, int qty)
     {
         if (Actor is not { } actor)
             return;
+
         SendMessage(
             new StoreExchangeListingBoundUiMessage(
                 StoreExchangeType.CurrencyToItem,
@@ -95,8 +115,10 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
                 1.0f,
                 Net(actor),
                 data.Id));
-        RequestRefresh();
+
+        RequestRefresh(true);
     }
+
 
     protected override void Dispose(bool disposing)
     {
@@ -104,6 +126,7 @@ public sealed class NcStoreStructuredBoundUi(EntityUid owner, Enum uiKey)
         {
             _menu.OnBuyPressed -= OnBuy;
             _menu.OnSellPressed -= OnSell;
+            _menu.OnExchangePressed -= OnExchange;
             _menu.Orphan();
             _menu = null;
         }
