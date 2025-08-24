@@ -59,7 +59,7 @@
   - type: ContainerContainer
     containers:
       storagebase: !type:Container
-        ents: []
+        ents: [ ]
   - type: UserInterface
     interfaces:
       enum.StorageUiKey.Key:
@@ -81,7 +81,7 @@
   parent: N14ClothingUniformSkirtBase
   id: N14ClothingUniformJumpskirtVault14Gold
   categories: [ HideSpawnMenu ]
-  name: vault 14 skirt 
+  name: vault 14 skirt
   suffix: Gold
   description: It's a vault skirt. It is gold-colored. It has a bright yellow 14 on the back.
   components:
@@ -128,3 +128,104 @@
     sprite: Corvax/Clothing/Uniforms/Jumpsuit/vaultsuit14purple.rsi
   - type: Clothing
     sprite: Corvax/Clothing/Uniforms/Jumpsuit/vaultsuit14purple.rsi
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: N14ClothingOuterLegionPaladinKiller
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: Corvax/Clothing/OuterClothing/PowerArmor/paladinKiller.rsi
+    layers:
+    - state: icon
+    - state: icon-Sealed
+      visible: false
+      shader: unshaded
+      map: [ "sealed" ]
+  - type: Clothing
+    sprite: Corvax/Clothing/OuterClothing/PowerArmor/paladinKiller.rsi
+    slots: [ outerClothing ]
+  - type: ToggleableClothing
+    requiredSlot: outerClothing
+    blockUnequipWhenAttached: true
+    replaceCurrentClothing: true
+    clothingPrototype: N14ClothingHeadHelmetLegionPaladinKiller
+  - type: ContainerContainer
+    containers:
+      toggleable-clothing: !type:Container { }
+  - type: SealableClothingControl
+    sealAction: N14OpenCloseHelmet
+    requiredSlot: [ outerClothing ]
+    failSound:
+      path: /Audio/Machines/scanbuzz.ogg
+      params:
+        volume: -30
+    sealCompleteSound:
+      path: /Audio/_Goobstation/Mecha/nominal.ogg
+      params:
+        volume: -30
+    unsealCompleteSound:
+      path: /Audio/_Goobstation/Machines/computer_end.ogg
+      params:
+        volume: -30
+  - type: SealableClothingVisuals
+    visualLayers:
+      outerClothing:
+      - state: equipped-OUTERCLOTHING-Sealed
+  - type: DoAfter
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.9
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.55
+        Slash: 0.55
+        Piercing: 0.5
+        Heat: 0.5
+  - type: ExplosionResistance
+    damageCoefficient: 0.65
+  - type: StaminaDamageResistance
+    coefficient: 0.85
+
+- type: entity
+  parent: ClothingHeadHardsuitBase
+  id: N14ClothingHeadHelmetLegionPaladinKiller
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Appearance
+  - type: Sprite
+    sprite: Corvax/Clothing/Head/PowerArmorHelmets/paladinKiller.rsi
+    layers:
+    - state: icon
+    - state: icon-sealed
+      visible: false
+      map: [ "sealed" ]
+  - type: SealableClothing
+    sealingTime: 0.1
+    sealUpPopup: sealable-clothing-seal-up-helmet
+    sealDownPopup: sealable-clothing-seal-down-helmet
+  - type: SealableClothingVisuals
+    visualLayers:
+      head:
+      - state: equipped-HELMET-sealed
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.7
+        Slash: 0.7
+        Piercing: 0.8
+        Heat: 0.8
+  - type: ExplosionResistance
+    damageCoefficient: 0.90
+  - type: ComponentToggler
+    components:
+    - type: IdentityBlocker
+    - type: IngestionBlocker
+    - type: HideLayerClothing
+      slots:
+      - Hair
+      - Snout
+      - HeadTop
+      - HeadSide
