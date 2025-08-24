@@ -139,7 +139,7 @@
     sprite: Corvax/Clothing/OuterClothing/PowerArmor/paladinKiller.rsi
     layers:
     - state: icon
-    - state: icon-Sealed
+    - state: icon-sealed
       visible: false
       shader: unshaded
       map: [ "sealed" ]
