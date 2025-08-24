@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-NC-SA-4.0",
-  "copyright": "Made by Bao (discord)",
+  "copyright": "Made by baohe (discord)",
   "size": {
     "x": 32,
     "y": 32
@@ -13,34 +13,7 @@
     },
     {
       "name": "equipped-OUTERCLOTHING",
-      "directions": 4,
-      "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ],
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-       
+      "directions": 4
     },
     {
       "name": "icon"
