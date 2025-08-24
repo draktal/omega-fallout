@@ -5,11 +5,11 @@
   exclusive: true
   sponsorLevel: 3
   requirements:
-    - !type:CharacterJobRequirement
-      jobs:
-        - NCRRanger
+  - !type:CharacterJobRequirement
+    jobs:
+    - NCRRanger
   items:
-    - N14ClothingHeadHatRangerHelmetSnowFox
+  - N14ClothingHeadHatRangerHelmetSnowFox
 
 - type: loadout
   id: LoadoutNCRN14ClothingHeadHatRangerHelmetSnowFox2
@@ -18,11 +18,11 @@
   exclusive: true
   sponsorLevel: 3
   requirements:
-    - !type:CharacterJobRequirement
-      jobs:
-        - NCRRangerVeteran
+  - !type:CharacterJobRequirement
+    jobs:
+    - NCRRangerVeteran
   items:
-    - N14ClothingHeadHatRangerHelmetSnowFox
+  - N14ClothingHeadHatRangerHelmetSnowFox
 
 - type: loadout
   id: LoadoutNCRN14ClothingOuterRangerSnowFox
@@ -31,11 +31,11 @@
   exclusive: true
   sponsorLevel: 3
   requirements:
-    - !type:CharacterJobRequirement
-      jobs:
-        - NCRRangerVeteran
+  - !type:CharacterJobRequirement
+    jobs:
+    - NCRRangerVeteran
   items:
-    - N14ClothingOuterRangerSnowFox
+  - N14ClothingOuterRangerSnowFox
 
 - type: loadout
   id: LoadoutN14ClothingOuterWandererCoat
@@ -44,7 +44,7 @@
   exclusive: true
   sponsorLevel: 2
   items:
-    - N14ClothingOuterWandererCoat
+  - N14ClothingOuterWandererCoat
 
 - type: loadout
   id: LoadoutBoSMidwestHellCat
@@ -53,14 +53,14 @@
   exclusive: true
   sponsorLevel: 2
   requirements:
-    - !type:CharacterJobRequirement
-      jobs:
-        - BoSMidPaladin
-        - BoSMidPaladinCommander
-        - BoSWestElderCommander
-        - BoSWestPaladin
+  - !type:CharacterJobRequirement
+    jobs:
+    - BoSMidPaladin
+    - BoSMidPaladinCommander
+    - BoSWestElderCommander
+    - BoSWestPaladin
   items:
-    - N14ClothingOuterPowerArmorHellCat
+  - N14ClothingOuterPowerArmorHellCat
 
 - type: loadout
   id: N14LoadoutUniformJumpskirtVault14Gold
@@ -69,13 +69,13 @@
   exclusive: true
   sponsorLevel: 3
   items:
-    - N14ClothingUniformJumpskirtVault14Gold
+  - N14ClothingUniformJumpskirtVault14Gold
   requirements:
-    - !type:CharacterItemGroupRequirement
-      group: N14LoadoutUniform
-    - !type:CharacterDepartmentRequirement
-      departments:
-        - Vault
+  - !type:CharacterItemGroupRequirement
+    group: N14LoadoutUniform
+  - !type:CharacterDepartmentRequirement
+    departments:
+    - Vault
 
 - type: loadout
   id: N14LoadoutUniformJumpskirtVault14Purple
@@ -84,13 +84,13 @@
   exclusive: true
   sponsorLevel: 2
   items:
-    - N14ClothingUniformJumpskirtVault14Purple
+  - N14ClothingUniformJumpskirtVault14Purple
   requirements:
-    - !type:CharacterItemGroupRequirement
-      group: N14LoadoutUniform
-    - !type:CharacterDepartmentRequirement
-      departments:
-        - Vault
+  - !type:CharacterItemGroupRequirement
+    group: N14LoadoutUniform
+  - !type:CharacterDepartmentRequirement
+    departments:
+    - Vault
 
 - type: loadout
   id: N14LoadoutUniformJumpsuitVault14Gold
@@ -99,13 +99,13 @@
   exclusive: true
   sponsorLevel: 3
   items:
-    - N14ClothingUniformJumpsuitVault14Gold
+  - N14ClothingUniformJumpsuitVault14Gold
   requirements:
-    - !type:CharacterItemGroupRequirement
-      group: N14LoadoutUniform
-    - !type:CharacterDepartmentRequirement
-      departments:
-        - Vault
+  - !type:CharacterItemGroupRequirement
+    group: N14LoadoutUniform
+  - !type:CharacterDepartmentRequirement
+    departments:
+    - Vault
 
 - type: loadout
   id: N14LoadoutUniformJumpsuitVault14Purple
@@ -114,10 +114,27 @@
   exclusive: true
   sponsorLevel: 2
   items:
-    - N14ClothingUniformJumpsuitVault14Purple
+  - N14ClothingUniformJumpsuitVault14Purple
   requirements:
-    - !type:CharacterItemGroupRequirement
-      group: N14LoadoutUniform
-    - !type:CharacterDepartmentRequirement
-      departments:
-        - Vault
+  - !type:CharacterItemGroupRequirement
+    group: N14LoadoutUniform
+  - !type:CharacterDepartmentRequirement
+    departments:
+    - Vault
+
+- type: loadout
+  id: LoadoutN14ClothingOuterLegionPaladinKiller
+  customName: false
+  customDescription: false
+  category: Roles
+  cost: 0
+  exclusive: true
+  sponsorLevel: 3
+  requirements:
+  - !type:CharacterJobRequirement
+    jobs:
+    - CaesarLegionCenturion
+  items:
+  - N14ClothingOuterLegionPaladinKiller
+  functions:
+  - !type:LoadoutDeleteHelmet
