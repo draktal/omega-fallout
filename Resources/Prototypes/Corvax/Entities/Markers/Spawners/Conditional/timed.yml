@@ -1,7 +1,6 @@
 - type: entity
   parent: N14TimedSpawnerMolerat
   id: N14TimedSpawnerSwamper
-  categories: [ HideSpawnMenu ]
   name: периодический спавнер болотника
   components:
     - type: Sprite
@@ -22,7 +21,6 @@
 - type: entity
   parent: N14TimedSpawnerMolerat
   id: N14TimedSpawnerRadSwamper
-  categories: [ HideSpawnMenu ]
   name: периодический спавнер радболотника
   components:
     - type: Sprite
@@ -43,7 +41,6 @@
 - type: entity
   parent: N14TimedSpawnerMolerat
   id: N14TimedSpawnerJackal
-  categories: [ HideSpawnMenu ]
   name: периодический спавнер шакала
   components:
     - type: Sprite
