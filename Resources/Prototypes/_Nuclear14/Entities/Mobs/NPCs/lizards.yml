@@ -12,8 +12,8 @@
       state: gecko
       sprite: _Nuclear14/Mobs/Animals/gecko.rsi
   - type: MovementSpeedModifier
-    baseWalkSpeed : 3
-    baseSprintSpeed : 4
+    baseWalkSpeed : 4                         # Forge-Change
+    baseSprintSpeed : 5                       # Forge-Change
   - type: Fixtures
     fixtures:
       fix1:
@@ -28,7 +28,7 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      100: Dead
+      130: Dead
   - type: DamageStateVisuals
     states:
       Alive:
@@ -47,7 +47,7 @@
     wideAnimation: WeaponArcBite
     damage:
       types:
-        Slash: 5
+        Slash: 8                        # Forge-Change
   - type: Butcherable
     spawned:
     - id: N14FoodMeatGecko
@@ -94,7 +94,7 @@
     wideAnimation: WeaponArcBite
     damage:
       types:
-        Slash: 5
+        Slash: 7                        # Forge-Change
   - type: Butcherable
     spawned:
     - id: N14FoodMeatGeckoFire
@@ -166,6 +166,10 @@
     - map: ["enum.DamageStateVisualLayers.Base"]
       state: gecko
       sprite: _Nuclear14/Mobs/Animals/goldengecko.rsi
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      190: Dead                            # Forge-Change
   - type: MeleeWeapon
     altDisarm: false
     hidden: true
@@ -176,8 +180,8 @@
     wideAnimation: WeaponArcBite
     damage:
       types:
-        Slash: 6
-        Radiation: 1
+        Slash: 14                          # Forge-Change
+        Radiation: 5                       # Forge-Change
   - type: Butcherable
     spawned:
     - id: N14FoodMeatGeckoGolden
