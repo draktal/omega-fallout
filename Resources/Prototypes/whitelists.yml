@@ -17,5 +17,3 @@
     action: Allow
   - !type:ConditionManualSponsorMembership
     action: Allow
-  - !type:ConditionAlwaysMatch # Condition that always matches
-    action: Deny # Deny connection if matched
