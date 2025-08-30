@@ -67,10 +67,10 @@
   components:
   - type: Sprite
     noRot: false
-    state: wall_torch_lity                  # Forge-Change
+    state: wall_torch_lite # Forge-Change
   - type: FireVisuals
-    sprite: Corvax/Structures/Decoration/torches.rsi      # Forge-Change замена спрайтов на работающие
-    normalState: wall_torch_lity            # Forge-Change
+    sprite: Corvax/Structures/Decoration/torches.rsi # Forge-Change замена спрайтов на работающие
+    normalState: wall_torch_lite # Forge-Change
   - type: Construction
     graph: WallTorch
     node: WallTorch

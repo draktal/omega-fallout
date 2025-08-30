@@ -26,7 +26,7 @@
       "directions": 4
     },
     {
-      "name": "wall_torch_lit",
+      "name": "wall_torch_lite",
       "directions": 4,
       "delays": [
         [

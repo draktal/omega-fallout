@@ -326,10 +326,10 @@
     - Write
     - Pen
   - type: Sprite
-    sprite: _Nuclear14\Objects\Misc\clutter.rsi     # Forge-Change Обновленная концелярия
+    sprite: _Nuclear14/Objects/Misc/clutter.rsi     # Forge-Change Обновленная концелярия
     state: pencil
   - type: Item
-    sprite: _Nuclear14\Objects\Misc\clutter.rsi     # Forge-Change Обновленная концелярия
+    sprite: _Nuclear14/Objects/Misc/clutter.rsi     # Forge-Change Обновленная концелярия
     heldPrefix: pencil
     size: Tiny
   - type: PhysicalComposition
