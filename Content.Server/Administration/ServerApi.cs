@@ -411,7 +411,7 @@ public sealed partial class ServerApi : IPostInjectInit
             }
 
             var admin = data.UserId;
-            var banId = body.banId;
+            var banId = body.BanId;
         
             var ban = await _db.GetServerBanAsync(banId);
 
@@ -829,7 +829,7 @@ public sealed partial class ServerApi : IPostInjectInit
     // Forge-Change-Start
     private sealed class PardonActionBody
     {
-        public int banId { get; init; }
+        public int BanId { get; init; }
         public required string Ckey { get; init; }
     }
     // Forge-Change-End
