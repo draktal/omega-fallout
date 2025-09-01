@@ -400,7 +400,7 @@ public sealed partial class ServerApi : IPostInjectInit
     
         await RunOnMainThread(async () =>
         {
-            var data = await _locator.LookupIdByNameAsync($"{body.Ckey}");
+            var data = await _locator.LookupIdByNameAsync($"{actor.Guid}");
 
             if (data == null)
             {
@@ -830,7 +830,6 @@ public sealed partial class ServerApi : IPostInjectInit
     private sealed class PardonActionBody
     {
         public int BanId { get; init; }
-        public string? Ckey { get; init; }
     }
     // Forge-Change-End
 
