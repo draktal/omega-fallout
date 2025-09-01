@@ -830,7 +830,7 @@ public sealed partial class ServerApi : IPostInjectInit
     private sealed class PardonActionBody
     {
         public int BanId { get; init; }
-        public required string Ckey { get; init; }
+        public string? Ckey { get; init; }
     }
     // Forge-Change-End
 
