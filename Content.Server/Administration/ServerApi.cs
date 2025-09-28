@@ -935,14 +935,14 @@ public sealed partial class ServerApi : IPostInjectInit
     private sealed class TimeTransferActionBody
     {
         public string? TargetUsername { get; init; }
-        public required List<TimeTransferData> TimeData { get; set; }
+        public required List<TimeTransferData> TimeData { get; init; }
         
     }
 
     private sealed class TimeTransferData
     {
-        public required string PlaytimeTracker { get; set; }
-        public required string TimeString { get; set; }
+        public required string PlaytimeTracker { get; init; }
+        public required string TimeString { get; init; }
     }
     // Forge-Change-End
 
