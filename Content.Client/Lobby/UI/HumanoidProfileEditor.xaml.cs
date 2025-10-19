@@ -2729,6 +2729,30 @@ namespace Content.Client.Lobby.UI
                 }
             }
         }
+
+        private void RemoveSponsorLoadouts()
+        {
+            if (Profile?.LoadoutPreferences == null)
+                return;
+
+            var user = _playerManager.LocalUser;
+            if (user == null)
+                return;
+
+            foreach (var pref in Profile.LoadoutPreferences.Where(l => l.Selected))
+            {
+                var loadoutProto = _prototypeManager.Index<LoadoutPrototype>(pref.LoadoutName);
+                
+                if (loadoutProto.Level != SponsorLevel.None)
+                {
+                    if (!_sponsorMan.TryGetSponsor(user.Value, out var level))
+                        Profile.LoadoutPreferences.Remove(pref);
+
+                    if (loadoutProto.Level > level)
+                        Profile.LoadoutPreferences.Remove(pref);
+                }
+            }
+        }
         // Forge-Change-End
 
         #endregion
@@ -2740,6 +2764,7 @@ namespace Content.Client.Lobby.UI
             // Removes unnecessary items if they exceed the limit /ᐠ˵- ⩊ -˵マ
             RemoveSuperfluousTraits(); // Forge-Change
             RemoveSuperfluousLoadouts(); // Forge-Change
+            RemoveSponsorLoadouts(); // Forge-Change
 
             UpdateRoleRequirements();
             UpdateTraits(TraitsShowUnusableButton.Pressed);
