@@ -144,6 +144,9 @@
                 </BoxContainer>
                 <!-- Corvax-TTS-end -->
                 <Control MinSize="0 8" />
+                <CheckBox Name="TtsCheckBox" 
+                          Text="{Loc 'ui-options-tts-enabled'}"
+                          ToolTip="{Loc 'ui-options-tts-enabled-tooltip'}" /> <!-- Corvax-TTS -->
                 <CheckBox Name="LobbyMusicCheckBox" Text="{Loc 'ui-options-lobby-music'}" />
                 <CheckBox Name="RestartSoundsCheckBox" Text="{Loc 'ui-options-restart-sounds'}" />
                 <CheckBox Name="EventMusicCheckBox" Text="{Loc 'ui-options-event-music'}" />

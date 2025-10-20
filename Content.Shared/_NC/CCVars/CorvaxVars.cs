@@ -27,12 +27,12 @@ public sealed class CorvaxVars
     /**
      * TTS (Text-To-Speech)
      */
-
-    /// <summary>
-    /// URL of the TTS server API.
-    /// </summary>
+    
     public static readonly CVarDef<bool> TTSEnabled =
         CVarDef.Create("tts.enabled", false, CVar.SERVER | CVar.REPLICATED | CVar.ARCHIVE);
+    
+    public static readonly CVarDef<bool> LocalTTSEnabled =
+        CVarDef.Create("tts.local_enabled", true, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
 
     /// <summary>
     /// URL of the TTS server API.

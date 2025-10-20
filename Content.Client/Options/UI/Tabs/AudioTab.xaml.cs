@@ -28,6 +28,7 @@ namespace Content.Client.Options.UI.Tabs
             RestartSoundsCheckBox.Pressed = _cfg.GetCVar(CCVars.RestartSoundsEnabled);
             EventMusicCheckBox.Pressed = _cfg.GetCVar(CCVars.EventMusicEnabled);
             AdminSoundsCheckBox.Pressed = _cfg.GetCVar(CCVars.AdminSoundsEnabled);
+            TtsCheckBox.Pressed = _cfg.GetCVar(CorvaxVars.LocalTTSEnabled); // Corvax-TTS
 
             ApplyButton.OnPressed += OnApplyButtonPressed;
             ResetButton.OnPressed += OnResetButtonPressed;
@@ -42,13 +43,14 @@ namespace Content.Client.Options.UI.Tabs
                 InterfaceVolumeSlider,
                 AnnouncerVolumeSlider,
                 BarksVolumeSlider,
-                TtsVolumeSlider,
+                TtsVolumeSlider, // Corvax-TTS
 
                 LobbyMusicCheckBox,
                 RestartSoundsCheckBox,
                 EventMusicCheckBox,
                 AnnouncerDisableMultipleSoundsCheckBox,
-                AdminSoundsCheckBox
+                AdminSoundsCheckBox,
+                TtsCheckBox // Corvax-TTS
             );
 
             AmbienceSoundsSlider.MinValue = _cfg.GetCVar(CCVars.MinMaxAmbientSourcesConfigured);
@@ -89,13 +91,14 @@ namespace Content.Client.Options.UI.Tabs
                 InterfaceVolumeSlider,
                 AnnouncerVolumeSlider,
                 BarksVolumeSlider,
-                TtsVolumeSlider,
+                TtsVolumeSlider, // Corvax-TTS
 
                 LobbyMusicCheckBox,
                 RestartSoundsCheckBox,
                 EventMusicCheckBox,
                 AnnouncerDisableMultipleSoundsCheckBox,
-                AdminSoundsCheckBox
+                AdminSoundsCheckBox,
+                TtsCheckBox // Corvax-TTS
             );
 
             base.Dispose(disposing);
@@ -140,6 +143,7 @@ namespace Content.Client.Options.UI.Tabs
             _cfg.SetCVar(CCVars.EventMusicEnabled, EventMusicCheckBox.Pressed);
             _cfg.SetCVar(CCVars.AnnouncerDisableMultipleSounds, AnnouncerDisableMultipleSoundsCheckBox.Pressed);
             _cfg.SetCVar(CCVars.AdminSoundsEnabled, AdminSoundsCheckBox.Pressed);
+            _cfg.SetCVar(CorvaxVars.LocalTTSEnabled, TtsCheckBox.Pressed); // Corvax-TTS
             _cfg.SaveToFile();
             UpdateChanges();
         }
@@ -168,6 +172,7 @@ namespace Content.Client.Options.UI.Tabs
             EventMusicCheckBox.Pressed = _cfg.GetCVar(CCVars.EventMusicEnabled);
             AnnouncerDisableMultipleSoundsCheckBox.Pressed = _cfg.GetCVar(CCVars.AnnouncerDisableMultipleSounds);
             AdminSoundsCheckBox.Pressed = _cfg.GetCVar(CCVars.AdminSoundsEnabled);
+            TtsCheckBox.Pressed = _cfg.GetCVar(CorvaxVars.LocalTTSEnabled); // Corvax-TTS
             UpdateChanges();
         }
 
@@ -199,10 +204,11 @@ namespace Content.Client.Options.UI.Tabs
             var isEventSame = EventMusicCheckBox.Pressed == _cfg.GetCVar(CCVars.EventMusicEnabled);
             var isAnnouncerDisableMultipleSoundsSame = AnnouncerDisableMultipleSoundsCheckBox.Pressed == _cfg.GetCVar(CCVars.AnnouncerDisableMultipleSounds);
             var isAdminSoundsSame = AdminSoundsCheckBox.Pressed == _cfg.GetCVar(CCVars.AdminSoundsEnabled);
+            var isTtsSoundsSame = TtsCheckBox.Pressed == _cfg.GetCVar(CorvaxVars.LocalTTSEnabled);
             var isEverythingSame = isMasterVolumeSame && isMidiVolumeSame && isAmbientVolumeSame
                 && isAmbientMusicVolumeSame && isAmbientSoundsSame && isLobbySame && isRestartSoundsSame && isEventSame
                 && isAnnouncerDisableMultipleSoundsSame && isAdminSoundsSame && isLobbyVolumeSame
-                && isInterfaceVolumeSame && isAnnouncerVolumeSame && isBarksVolumeSame && isTtsVolumeSame; // Corvax-Fallout-Barks
+                && isInterfaceVolumeSame && isAnnouncerVolumeSame && isBarksVolumeSame && isTtsVolumeSame && isTtsSoundsSame; // Corvax-Fallout-Barks
             ApplyButton.Disabled = isEverythingSame;
             ResetButton.Disabled = isEverythingSame;
             MasterVolumeLabel.Text =

@@ -3,6 +3,8 @@ using Content.Server.Chat.Systems;
 using Content.Shared._NC.CorvaxVars;
 using Content.Shared._NC.TTS;
 using Content.Shared.GameTicking;
+using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Content.Shared.Players.RateLimiting;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
@@ -16,6 +18,7 @@ namespace Content.Server._NC.TTS;
 public sealed partial class TTSSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly INetConfigurationManager _netCfg = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly TTSManager _ttsManager = default!;
     [Dependency] private readonly SharedTransformSystem _xforms = default!;
@@ -91,6 +94,13 @@ public sealed partial class TTSSystem : EntitySystem
 
     private async void OnEntitySpoke(EntityUid uid, TTSComponent component, EntitySpokeEvent args)
     {
+        if (TryComp<MindContainerComponent>(uid, out var mindCon)
+            && TryComp<MindComponent>(mindCon.Mind, out var mind) && mind.Session != null)
+        {
+            var channel = mind.Session.Channel;
+            if (!_netCfg.GetClientCVar(channel, CorvaxVars.LocalTTSEnabled))
+                return;
+        }
         var voiceId = component.VoicePrototypeId;
         if (!_isEnabled ||
             args.Message.Length > MaxMessageChars ||
