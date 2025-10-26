@@ -11,8 +11,6 @@
     - state: gear
   - type: Item
     size: Normal
-  - type: Craftable
-  - type: STSkinsKit
 
 - type: entity
   id: N14ModificationkitRevolver44Tribal

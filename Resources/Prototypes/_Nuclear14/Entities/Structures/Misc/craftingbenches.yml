@@ -54,7 +54,7 @@
         type: StorageBoundUserInterface
       enum.LatheUiKey.Key:
         type: LatheBoundUserInterface
-  - type: Craftable
+
   - type: Storage
     craft: true
     maxItemSize: Ginormous

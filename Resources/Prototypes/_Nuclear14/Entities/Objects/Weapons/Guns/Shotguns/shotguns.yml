@@ -37,7 +37,6 @@
   - type: FollowDistance
     backStrength: 5
   - type: Wieldable
-  - type: Craftable
 
 - type: entity
   name: shotgun

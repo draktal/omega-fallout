@@ -8,7 +8,7 @@
     - outerClothing
   - type: Sprite
     state: icon
-  - type: Craftable # Corvax-Change
+   # Corvax-Change
 
 - type: entity
   abstract: true

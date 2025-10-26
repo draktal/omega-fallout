@@ -20,7 +20,7 @@
     color: orange
   - type: Cautery
     speed: 0.6
-  - type: Craftable # Corvax-Change
+   # Corvax-Change
   - type: Tag # Corvax-Change
     tags:
       - N14Welder

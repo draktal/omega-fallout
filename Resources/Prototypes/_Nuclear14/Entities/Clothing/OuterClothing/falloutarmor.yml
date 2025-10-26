@@ -9,7 +9,7 @@
     - outerClothing
   - type: Sprite
     state: icon
-  - type: Craftable
+
 
 #MARK: Armor
 - type: entity
@@ -169,7 +169,7 @@
     walkModifier: 0.95
     sprintModifier: 0.95
   - type: StaticPrice # Forge-Add
-    price: 25 
+    price: 25
 
 - type: entity
   parent: N14FalloutArmorBase

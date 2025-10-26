@@ -7,7 +7,6 @@
     backStrength: 6
   - type: StaticPrice
     price: 20
-  - type: Craftable
 
 - type: entity
   name: 9mm revolver

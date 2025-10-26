@@ -13,7 +13,6 @@
     backStrength: 6
   - type: StaticPrice
     price: 100
-  - type: Craftable
 
 - type: entity
   name: 10mm SMG

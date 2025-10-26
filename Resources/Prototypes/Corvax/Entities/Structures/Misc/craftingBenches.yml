@@ -34,7 +34,6 @@
           - MachineLayer
     - type: Transform
       noRot: true
-    - type: Craftable
     - type: Storage
       craft: true
       maxItemSize: Ginormous
