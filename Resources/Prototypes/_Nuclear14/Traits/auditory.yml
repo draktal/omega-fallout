@@ -23,7 +23,7 @@
 - type: trait
   id: N14Stomper
   category: Auditory
-  points: 1 #Connection Edit(0)
+  points: 0
   requirements:
     - !type:CharacterTraitRequirement
       inverted: true
