@@ -119,7 +119,6 @@
       traits:
         - N14LifeTaker
         - N14LifeGiver
-        - ConnectionWaitList #Connection Edit
   functions:
     - !type:TraitReplaceComponent
       components:
@@ -136,7 +135,6 @@
       traits:
         - N14ScriptedDeath
         - N14LifeGiver
-        - ConnectionWaitList #Connection Edit
   functions:
     - !type:TraitReplaceComponent
       components:
@@ -157,7 +155,6 @@
       traits:
         - N14ScriptedDeath
         - N14LifeTaker
-        - ConnectionWaitList #Connection Edit
   functions:
     - !type:TraitReplaceComponent
       components:
