@@ -9,7 +9,7 @@
     - outerClothing
   - type: Sprite
     state: icon
-  - type: Craftable
+
   - type: Storage
     grid:
     - 0,0,2,1
@@ -537,7 +537,7 @@
         Piercing: 0.8
         Heat: 0.85
     priceMultiplier: 0.5
-    
+
 - type: entity
   parent: N14ClothingOuterBase
   id: N14ClothingOuterNCRDressJacket

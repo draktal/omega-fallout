@@ -67,7 +67,6 @@
     price: 8
   - type: FollowDistance
     backStrength: 6
-  - type: Craftable
 
 - type: entity
   name: N14BaseInternalPistol

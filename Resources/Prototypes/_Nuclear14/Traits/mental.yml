@@ -17,6 +17,13 @@
   id: N14Pickpocket
   category: Mental
   points: -6
+  #Connection Edit
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - N14Pickpocket
+  #Connection Edit End
   functions:
     - !type:TraitReplaceComponent
       components:
