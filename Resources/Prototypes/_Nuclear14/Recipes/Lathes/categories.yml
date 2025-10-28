@@ -77,7 +77,3 @@
 - type: latheCategory
   id: N14Identification
   name: lathe-category-identification
-
-- type: latheCategory
-  id: N14Blueprints
-  name: lathe-category-blueprints
