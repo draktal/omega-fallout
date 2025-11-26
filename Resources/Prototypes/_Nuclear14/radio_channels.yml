@@ -83,13 +83,6 @@
   color: "#d77715"
 
 - type: radioChannel
-  id: China
-  name: chat-radio-china
-  keycode: 'и' # Corvax-Change
-  frequency: 1945
-  color: "#e61e10"
-
-- type: radioChannel
   id: PBS
   name: chat-radio-pbs
   keycode: 'o'

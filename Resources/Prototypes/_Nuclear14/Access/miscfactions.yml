@@ -191,13 +191,3 @@
 - type: accessLevel
   id: AncientBunker
   name: id-card-access-level-ancient
-
-#MARK: China
-
-- type: accessLevel
-  id: ChinaOperative
-  name: id-card-access-level-china-operative
-
-- type: accessLevel
-  id: ChinaCommander
-  name: id-card-access-level-china-commander
