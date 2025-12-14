@@ -1,6 +1,6 @@
 - type: entity
   parent: BaseSign
-  id: N14PosterBase # For 64x64 posters
+  id: N14OmegaPoster # by polt
   name: Poster
   suffix: Mapping
   abstract: true
@@ -35,16 +35,17 @@
 
 # Arizona+
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14PosterArizona02
   name: Аризона
   description: Плакат Аризоны.
   components:
   - type: Sprite
+    sprite: Omega/Structures/Wallmounts/Posters/Arizona64x64.rsi
     state: Arizona02
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14PosterArizonaposter
   name: Аризона
   description: Плакат Аризоны.
@@ -53,7 +54,7 @@
     state: Arizonaposter
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14PosterAssistantposter
   name: Асистент
   description: Плакат.
@@ -62,7 +63,7 @@
     state: Assistantposter
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14PosterDesertRangerposter
   name: Пустынный рейджер.
   description: Рейнджеры.. как же они любят заказывать плакаты у художников .
@@ -71,7 +72,7 @@
     state: DesertRangerposter
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Posterfuture2poster
   name: Наука
   description: Чето на умном.
@@ -80,7 +81,7 @@
     state: future2poster
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Posterfuture3poster
   name: Наука
   description: Чето на умном.
@@ -89,7 +90,7 @@
     state: future3poster
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Posterfuture4poster
   name: Наука
   description: Чето на умном.
@@ -98,7 +99,7 @@
     state: future4poster
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Posterfutureposter
   name: Наука
   description: Чето на умном.
@@ -107,7 +108,7 @@
     state: futureposter
 
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Postergeeseposter
   name: Гуси
   description: Гуси....
@@ -116,7 +117,7 @@
     state: geeseposter
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Postergirl2poster
   name: для бара самое то
   description: для бара самое то.
@@ -125,7 +126,7 @@
     state: girl2poster
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Postergirl3poster
   name: для бара самое то
   description: для бара самое то.
@@ -134,7 +135,7 @@
     state: girl3poster
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Postergirl4poster
   name: для бара самое то
   description: для бара самое то.
@@ -143,7 +144,7 @@
     state: girl4poster
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14Postergirlposter
   name: для бара самое то
   description: для бара самое то.
@@ -152,7 +153,7 @@
     state: girlposter
   
 - type: entity
-  parent: N14PosterBase
+  parent: N14OmegaPoster
   id: N14PosterROKCposter
   name: РОК!!
   description: РОК!!.

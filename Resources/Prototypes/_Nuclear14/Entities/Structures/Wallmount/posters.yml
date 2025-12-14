@@ -129,6 +129,7 @@
   description: "A near pristine poster advertising Vault-Tec."
   components:
   - type: Sprite
+    sprite: _Nuclear14/Structures/Wallmounts/Posters/vault-tec.rsi
     state: vault-tec01
 
 - type: entity
