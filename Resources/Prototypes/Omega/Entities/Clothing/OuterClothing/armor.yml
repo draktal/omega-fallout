@@ -18,4 +18,24 @@
   - type: ExplosionResistance
     damageCoefficient: 0.7
 
+- type: entity
+  parent: N14FalloutArmorBase
+  id: N14OmegaClothingOuterRaidercombatNCR
+  name: рейдерская боевая броня
+  description: "Бывшая броня нкр, теперь верный друг рейдера."
+  components:
+  - type: Sprite
+    sprite: Omega/Clothing/OuterClothing/Armor/RaidercombatNCR.rsi
+  - type: Clothing
+    sprite: Omega/Clothing/OuterClothing/Armor/RaidercombatNCR.rsi
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.74
+        Slash: 0.74
+        Piercing: 0.7
+        Heat: 0.7
+  - type: ExplosionResistance
+    damageCoefficient: 0.8
+
 
