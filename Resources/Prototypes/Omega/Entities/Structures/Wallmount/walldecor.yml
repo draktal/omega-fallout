@@ -1,0 +1,65 @@
+- type: entity
+  parent: BaseSign
+  id: N14flagArizona # for non directional signs otherwise remove snapCardinals: true
+  abstract: true
+  components:
+  - type: WallMount
+    arc: 360
+  - type: Sprite
+    drawdepth: Overdoors
+    sprite: Omega/Structures/Wallmounts/flag.rsi
+    snapCardinals: true # one direction
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  parent: N14flagArizona
+  id: N14flag_Arizona
+  name: Племя "Дети Фиолетового Стога"
+  suffix: Arizona
+  description: Племя 
+  components:
+  - type: Sprite
+    state: flag_Arizona
+
+- type: entity
+  parent: N14flagArizona
+  id: N14flagArizona02
+  suffix: Племя "Грибные"
+  description: Племя
+  components:
+  - type: Sprite
+    state: flag_Arizona02
+
+- type: entity
+  parent: N14flagArizona
+  id: N14flaglegionfox
+  suffix: Легион Серебряного Лиса
+  description: После разгрома войск Цезаря в Колорадо и гибели самого Лэниуса, остатки Легиона на севере Аризоны оказались без централизованного руководства. Из этой анархии выдвинулся молодой, но хитрый центурион по прозвищу «Серебряный Лис».
+  components:
+  - type: Sprite
+    state: flag_legionfox
+
+- type: entity
+  parent: N14flagArizona
+  id: N14flagrangersArizona
+  suffix: рейнджиры аризоны
+  description: рейнджиры аризоны
+  components:
+  - type: Sprite
+    state: flag_rangersArizona
+
+- type: entity
+  parent: N14flagArizona
+  id: N14vidal_junction
+  suffix: Видал Джекшен 
+  description: Торговое посление, часть основного видала, что на юге.
+  components:
+  - type: Sprite
+    state: vidal_junction
