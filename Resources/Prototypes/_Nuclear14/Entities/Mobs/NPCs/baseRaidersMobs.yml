@@ -23,14 +23,14 @@
     - type: InputMover
     - type: MobMover
     - type: SurgeryTarget
-      canOperate: false
+      canOperate: true
     - type: HTN
       rootTask:
         task: N14RangedHostileCompound
     - type: Carriable
     - type: Perishable
       rotAfter: 1800 # Rots after half of an in-game day
-    - type: RotInto 
+    - type: RotInto
       entity: N14FoodMeatRadRaw # and becomes a single chunk of meat.
     - type: Butcherable
       butcheringType: Spike
