@@ -1,7 +1,7 @@
 - type: gameMap
   id: OmegaZima
   mapName: 'Омега Зима'
-  mapPath: /Maps/N14/ZIMA.yml
+  mapPath: /Maps/N14/omegazima.yml
   minPlayers: 0
   stations:
     OmegaZima:
